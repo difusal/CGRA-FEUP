@@ -20,6 +20,7 @@
 *.out
 *.app
 
-*/Debug
+bin
+Debug
 *.cproject
 *.project
