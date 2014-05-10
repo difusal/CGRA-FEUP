@@ -21,7 +21,7 @@ private:
 
 	CGFappearance* texture;
 
-	unsigned long seconds;
+	unsigned long savedTime;
 
 public:
 	MyClock();

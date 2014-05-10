@@ -44,6 +44,7 @@ public:
 	CGFappearance* boardAppearance;
 	CGFappearance* windowAppearance;
 	CGFappearance* floorAppearance;
+	CGFappearance* robotAppearance;
 };
 
 #endif

@@ -15,7 +15,8 @@ private:
 	int slices, stacks;
 	bool smooth;
 public:
-	MyRobot(int slices, int stacks, bool smooth);
+	MyRobot(int stacks, bool smooth);
+	void drawFace();
 	void draw();
 	virtual ~MyRobot();
 };

@@ -48,4 +48,6 @@ void MyClockHand::setAngle(float angle) {
 
 void MyClockHand::incAngle(float angle) {
 	this->angle += angle;
+	if (this->angle >= 360)
+		this->angle -= 360;
 }

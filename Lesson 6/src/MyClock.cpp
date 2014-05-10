@@ -29,20 +29,16 @@ MyClock::MyClock() {
 	texture->setTexture("res/clock.png");
 	texture->setTextureWrap(GL_REPEAT, GL_REPEAT);
 
-	seconds = 0;
+	savedTime = 0;
 }
 
 void MyClock::update(unsigned long sysTime) {
-	if (sysTime / 1000 != seconds) {
-		seconds = sysTime / 1000;
-		secondsPtr->incAngle(360 / 60);
+	if (sysTime != savedTime && savedTime != 0) {
+		secondsPtr->incAngle((360.0 / 60) * (sysTime - savedTime) / 1000);
+		minutesPtr->incAngle((360.0 / 60) * (sysTime - savedTime) / 1000 / 60);
+		hoursPtr->incAngle((360.0 / 12) * (sysTime - savedTime) / 1000 / 3600);
 
-		if ((int) (secondsPtr->getAngle()) % 360 == 0) {
-			minutesPtr->incAngle(360 / 60);
-
-			if ((int) (minutesPtr->getAngle()) % 360 == 0)
-				hoursPtr->incAngle(360 / 12);
-		}
+		savedTime = sysTime;
 	}
 }
 

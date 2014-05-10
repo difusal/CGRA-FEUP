@@ -140,7 +140,7 @@ void LightingScene::init() {
 	column = new myCylinder(30, 30, true);
 	lamp = new myLamp();
 	clock = new MyClock();
-	robot = new MyRobot(12, 1, false);
+	robot = new MyRobot(5, false);
 
 	// Declares materials
 	materialA = new CGFappearance(ambA, difA, specA, shininessA);
@@ -176,6 +176,12 @@ void LightingScene::init() {
 			shininessFloor);
 	floorAppearance->setTexture("res/floor.png");
 	floorAppearance->setTextureWrap(GL_REPEAT, GL_REPEAT);
+
+	// robot material
+	robotAppearance = new CGFappearance(ambFloor, difFloor, specFloor,
+			shininessFloor);
+	robotAppearance->setTexture("res/robot1.jpg");
+	robotAppearance->setTextureWrap(GL_REPEAT, GL_REPEAT);
 
 	// defines shade model
 	glShadeModel(GL_SMOOTH);
@@ -301,6 +307,7 @@ void LightingScene::display() {
 	glPopMatrix();
 
 	// Robot
+	robotAppearance->apply();
 	robot->draw();
 	// ---- END Primitive drawing section
 
