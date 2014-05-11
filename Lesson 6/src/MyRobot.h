@@ -22,6 +22,7 @@ public:
 
 	double rotation;
 	double x, z;
+	int wireframe;
 };
 
 #endif /* MYROBOT_H_ */

@@ -13,6 +13,11 @@ public:
 
 	void initLightsPanel();
 	void initClockPanel();
+	void initRobotPanel();
+	void initOthersPanel();
+
+	int robotListBoxSelectedItemID;
+	int robotRadioGroupSelectedItemID;
 };
 
 #endif

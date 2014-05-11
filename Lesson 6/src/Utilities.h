@@ -5,6 +5,10 @@
 #include <cmath>
 #include <vector>
 
+enum RobotTexureID {
+	BASIC, METAL
+};
+
 double degToRad(double deg);
 void drawMyRect(double x1, double y1, double x2, double y2,
 		bool applyTexturePoints);

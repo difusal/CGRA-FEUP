@@ -10,6 +10,7 @@
 #include "MyClock.h"
 #include "MyRobot.h"
 #include "MyWallWithWindow.h"
+#include "Utilities.h"
 
 class LightingScene: public CGFscene {
 public:
@@ -20,8 +21,9 @@ public:
 
 	void toggleShowTables();
 
-	bool showTables;
+	int showTables;
 	int light0IsOn, light1IsOn, light2IsOn, light3IsOn;
+	RobotTexureID robotTextureID;
 
 	CGFlight* light0;
 	CGFlight* light1;

@@ -4,11 +4,21 @@
 #include "LightingScene.h"
 #include "Utilities.h"
 
-enum IDS {
-	LIGHT0, LIGHT1, LIGHT2, LIGHT3, PAUSE_BTN, RESTART_BTN
+enum ID {
+	LIGHT0,
+	LIGHT1,
+	LIGHT2,
+	LIGHT3,
+	PAUSE_BTN,
+	RESTART_BTN,
+	ROBOT_LISTBOX,
+	ROBOT_RADIO_GROUP,
+	SHOW_TABLES
 };
 
 TPinterface::TPinterface() {
+	robotListBoxSelectedItemID = 0;
+	robotRadioGroupSelectedItemID = 0;
 }
 
 void TPinterface::processKeyboard(unsigned char key, int x, int y) {
@@ -43,7 +53,14 @@ void TPinterface::processKeyboard(unsigned char key, int x, int y) {
 void TPinterface::initGUI() {
 	initLightsPanel();
 	addColumn();
+
 	initClockPanel();
+	addColumn();
+
+	initRobotPanel();
+	addColumn();
+
+	initOthersPanel();
 }
 
 void TPinterface::processGUI(GLUI_Control* ctrl) {
@@ -73,6 +90,14 @@ void TPinterface::processGUI(GLUI_Control* ctrl) {
 		break;
 	case RESTART_BTN:
 		((LightingScene*) scene)->clock->clockIsOn = 1;
+		break;
+	case ROBOT_LISTBOX:
+		((LightingScene*) scene)->robotTextureID =
+				(RobotTexureID) robotListBoxSelectedItemID;
+		break;
+	case ROBOT_RADIO_GROUP:
+		((LightingScene*) scene)->robot->wireframe =
+				robotRadioGroupSelectedItemID;
 		break;
 	};
 }
@@ -113,4 +138,39 @@ void TPinterface::initClockPanel() {
 
 	strcpy(text, "Resume");
 	addButtonToPanel(clockPanel, text, RESTART_BTN);
+}
+
+void TPinterface::initRobotPanel() {
+	char* text = new char[20];
+
+	strcpy(text, "Robot");
+	GLUI_Panel* robotPanel = addPanel(text, 1);
+
+	strcpy(text, "Texture");
+	GLUI_Listbox* robotListbox = addListboxToPanel(robotPanel, text,
+			&robotListBoxSelectedItemID, ROBOT_LISTBOX);
+
+	robotListbox->add_item(BASIC, "Basic");
+	robotListbox->add_item(METAL, "Metal");
+
+	addSeparatorToPanel(robotPanel);
+
+	GLUI_RadioGroup* robotRadioGroup = addRadioGroupToPanel(robotPanel,
+			&robotRadioGroupSelectedItemID, ROBOT_RADIO_GROUP);
+
+	strcpy(text, "Texture");
+	addRadioButtonToGroup(robotRadioGroup, text);
+	strcpy(text, "Wireframe");
+	addRadioButtonToGroup(robotRadioGroup, text);
+}
+
+void TPinterface::initOthersPanel() {
+	char* text = new char[20];
+
+	strcpy(text, "Others");
+	GLUI_Panel* othersPanel = addPanel(text, 1);
+
+	strcpy(text, "Show Tables");
+	addCheckboxToPanel(othersPanel, text,
+			&(((LightingScene*) scene)->showTables), SHOW_TABLES);
 }

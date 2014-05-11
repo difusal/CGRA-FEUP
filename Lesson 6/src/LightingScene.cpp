@@ -1,10 +1,8 @@
 #include "LightingScene.h"
-#include "CGFaxis.h"
-#include "CGFapplication.h"
-#include "myTable.h"
-#include "Plane.h"
 
 #include <math.h>
+#include "CGFaxis.h"
+#include "CGFapplication.h"
 
 float pi = acos(-1.0);
 float deg2rad = pi / 180.0;
@@ -93,8 +91,9 @@ void LightingScene::init() {
 	//glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbientLight);
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientNull);
 
-	showTables = true;
+	showTables = 1;
 	light0IsOn = light1IsOn = light2IsOn = light3IsOn = 1;
+	robotTextureID = BASIC;
 
 	// Declares and enables lights, with null ambient component
 	light0 = new CGFlight(GL_LIGHT0, light0_pos);
@@ -180,7 +179,7 @@ void LightingScene::init() {
 	// robot material
 	robotAppearance = new CGFappearance(ambFloor, difFloor, specFloor,
 			shininessFloor);
-	robotAppearance->setTexture("res/robot1.jpg");
+	robotAppearance->setTexture("res/basicRobot.jpg");
 	robotAppearance->setTextureWrap(GL_REPEAT, GL_REPEAT);
 
 	// landscape material
@@ -318,6 +317,14 @@ void LightingScene::display() {
 	glPopMatrix();
 
 	// Robot
+	switch (robotTextureID) {
+	case BASIC:
+		robotAppearance->setTexture("res/basicRobot.jpg");
+		break;
+	case METAL:
+		robotAppearance->setTexture("res/metalRobot.jpg");
+		break;
+	}
 	robotAppearance->apply();
 	robot->draw();
 	// ---- END Primitive drawing section

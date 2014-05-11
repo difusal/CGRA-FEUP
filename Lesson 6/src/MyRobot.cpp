@@ -18,8 +18,8 @@ MyRobot::MyRobot(int stacks, bool smooth) {
 	this->smooth = smooth;
 
 	rotation = 135;
-	x = 0;
-	z = 0;
+	x = z = 0;
+	wireframe = 0;
 }
 
 void MyRobot::drawFace(int face) {
@@ -183,6 +183,9 @@ void MyRobot::draw() {
 	double alpha = 360.0 / slices;
 	double x1, y1;
 
+	if (wireframe)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
 	glPushMatrix();
 
 	glTranslated(7.5 + x, 0, 7.5 + z);
@@ -222,6 +225,8 @@ void MyRobot::draw() {
 	}
 
 	glPopMatrix();
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 MyRobot::~MyRobot() {
