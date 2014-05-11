@@ -9,10 +9,10 @@ public:
 
 	virtual void initGUI();
 	virtual void processGUI(GLUI_Control *ctrl);
-
 	virtual void processKeyboard(unsigned char key, int x, int y);
 
-	int testVar;
+	void initLightsPanel();
+	void initClockPanel();
 };
 
 #endif

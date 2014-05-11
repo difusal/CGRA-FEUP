@@ -18,10 +18,10 @@ public:
 	void display();
 	~LightingScene();
 
-	int sceneVar;
-	void toggleSomething();
+	void toggleShowTables();
 
 	bool showTables;
+	int light0IsOn, light1IsOn, light2IsOn, light3IsOn;
 
 	CGFlight* light0;
 	CGFlight* light1;

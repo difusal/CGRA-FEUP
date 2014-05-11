@@ -30,10 +30,12 @@ MyClock::MyClock() {
 	texture->setTextureWrap(GL_REPEAT, GL_REPEAT);
 
 	savedTime = 0;
+
+	clockIsOn = 1;
 }
 
 void MyClock::update(unsigned long sysTime) {
-	if (sysTime != savedTime && savedTime != 0) {
+	if (clockIsOn && sysTime != savedTime && savedTime != 0) {
 		secondsPtr->incAngle((360.0 / 60) * (sysTime - savedTime) / 1000);
 		minutesPtr->incAngle((360.0 / 60) * (sysTime - savedTime) / 1000 / 60);
 		hoursPtr->incAngle((360.0 / 12) * (sysTime - savedTime) / 1000 / 3600);

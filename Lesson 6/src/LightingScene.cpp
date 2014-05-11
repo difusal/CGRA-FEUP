@@ -94,17 +94,16 @@ void LightingScene::init() {
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientNull);
 
 	showTables = true;
+	light0IsOn = light1IsOn = light2IsOn = light3IsOn = 1;
 
 	// Declares and enables lights, with null ambient component
 	light0 = new CGFlight(GL_LIGHT0, light0_pos);
 	light0->setSpecular(yellow);
 	light0->setAmbient(ambientNull);
-	//light0->disable();
 	light0->enable();
 
 	light1 = new CGFlight(GL_LIGHT1, light1_pos);
 	light1->setAmbient(ambientNull);
-	//light1->disable();
 	light1->enable();
 
 	light2 = new CGFlight(GL_LIGHT2, light2_pos);
@@ -112,7 +111,6 @@ void LightingScene::init() {
 	light2->setKc(1);
 	light2->setKl(0);
 	light2->setKq(0);
-	//light2->disable();
 	light2->enable();
 
 	light3 = new CGFlight(GL_LIGHT3, light3_pos);
@@ -120,7 +118,6 @@ void LightingScene::init() {
 	light3->setKc(1);
 	light3->setKl(0);
 	light3->setKq(0);
-	//light3->disable();
 	light3->enable();
 
 	lightWindow = new CGFlight(GL_LIGHT4, lightWindow_pos);
@@ -128,7 +125,6 @@ void LightingScene::init() {
 	lightWindow->setKc(1);
 	lightWindow->setKl(0);
 	lightWindow->setKq(0);
-	//lightWindow->disable();
 	lightWindow->enable();
 
 	// Uncomment below to enable normalization of lighting normal vectors
@@ -197,8 +193,6 @@ void LightingScene::init() {
 	glShadeModel(GL_SMOOTH);
 
 	setUpdatePeriod(100);
-
-	sceneVar = 0;
 }
 
 void LightingScene::update(unsigned long sysTime) {
@@ -217,7 +211,6 @@ void LightingScene::display() {
 	// Apply transformations corresponding to the camera position relative to the origin
 	CGFscene::activeCamera->applyView();
 
-	// light0->draw(); light1->draw(); light2->draw(); light3->draw();
 	light0->update();
 	light1->update();
 	light2->update();
@@ -356,6 +349,6 @@ LightingScene::~LightingScene() {
 	delete (boardAppearance);
 }
 
-void LightingScene::toggleSomething() {
+void LightingScene::toggleShowTables() {
 	showTables = !showTables;
 }

@@ -4,8 +4,11 @@
 #include "LightingScene.h"
 #include "Utilities.h"
 
+enum IDS {
+	LIGHT0, LIGHT1, LIGHT2, LIGHT3, PAUSE_BTN, RESTART_BTN
+};
+
 TPinterface::TPinterface() {
-	testVar = 0;
 }
 
 void TPinterface::processKeyboard(unsigned char key, int x, int y) {
@@ -34,32 +37,80 @@ void TPinterface::processKeyboard(unsigned char key, int x, int y) {
 		// rotate right
 		robot->rotation -= rotationSpeed;
 		break;
-	case 'a':
-		((LightingScene*) scene)->toggleSomething();
-		break;
 	}
 }
 
 void TPinterface::initGUI() {
-	// Check CGFinterface.h and GLUI documentation for the types of controls available
-	GLUI_Panel *varPanel = addPanel("Group", 1);
-	addSpinnerToPanel(varPanel, "Val 1(interface)", 2, &testVar, 1);
-
-	// You could also pass a reference to a variable from the scene class, if public
-	addSpinnerToPanel(varPanel, "Val 2(scene)", 2,
-			&(((LightingScene*) scene)->sceneVar), 2);
-
+	initLightsPanel();
+	addColumn();
+	initClockPanel();
 }
 
-void TPinterface::processGUI(GLUI_Control *ctrl) {
-	printf("GUI control id: %d\n  ", ctrl->user_id);
+void TPinterface::processGUI(GLUI_Control* ctrl) {
 	switch (ctrl->user_id) {
-	case 1:
-		printf("New Val 1(interface): %d\n", testVar);
+	case LIGHT0:
+		((LightingScene*) scene)->light0->disable();
+		if (((LightingScene*) scene)->light0IsOn)
+			((LightingScene*) scene)->light0->enable();
 		break;
-	case 2:
-		printf("New Val 2(scene): %d\n", ((LightingScene*) scene)->sceneVar);
+	case LIGHT1:
+		((LightingScene*) scene)->light1->disable();
+		if (((LightingScene*) scene)->light1IsOn)
+			((LightingScene*) scene)->light1->enable();
+		break;
+	case LIGHT2:
+		((LightingScene*) scene)->light2->disable();
+		if (((LightingScene*) scene)->light2IsOn)
+			((LightingScene*) scene)->light2->enable();
+		break;
+	case LIGHT3:
+		((LightingScene*) scene)->light3->disable();
+		if (((LightingScene*) scene)->light3IsOn)
+			((LightingScene*) scene)->light3->enable();
+		break;
+	case PAUSE_BTN:
+		((LightingScene*) scene)->clock->clockIsOn = 0;
+		break;
+	case RESTART_BTN:
+		((LightingScene*) scene)->clock->clockIsOn = 1;
 		break;
 	};
 }
 
+void TPinterface::initLightsPanel() {
+	char* text = new char[20];
+
+	strcpy(text, "Lights");
+	GLUI_Panel* lightsPanel = addPanel(text, 1);
+
+	strcpy(text, "Light 0");
+	addCheckboxToPanel(lightsPanel, text,
+			&(((LightingScene*) scene)->light0IsOn), LIGHT0);
+
+	strcpy(text, "Light 1");
+	addCheckboxToPanel(lightsPanel, text,
+			&(((LightingScene*) scene)->light1IsOn), LIGHT1);
+
+	addColumnToPanel(lightsPanel);
+
+	strcpy(text, "Light 2");
+	addCheckboxToPanel(lightsPanel, text,
+			&(((LightingScene*) scene)->light2IsOn), LIGHT2);
+
+	strcpy(text, "Light 3");
+	addCheckboxToPanel(lightsPanel, text,
+			&(((LightingScene*) scene)->light3IsOn), LIGHT3);
+}
+
+void TPinterface::initClockPanel() {
+	char* text = new char[20];
+
+	strcpy(text, "Clock");
+	GLUI_Panel* clockPanel = addPanel(text, 1);
+
+	strcpy(text, "Pause");
+	addButtonToPanel(clockPanel, text, PAUSE_BTN);
+
+	strcpy(text, "Resume");
+	addButtonToPanel(clockPanel, text, RESTART_BTN);
+}

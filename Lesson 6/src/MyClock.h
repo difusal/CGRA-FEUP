@@ -28,6 +28,8 @@ public:
 	void update(unsigned long sysTime);
 	void draw();
 	virtual ~MyClock();
+
+	int clockIsOn;
 };
 
 #endif /* MYCLOCK_H_ */
