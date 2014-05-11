@@ -135,12 +135,14 @@ void LightingScene::init() {
 	//Declares scene elements
 	table = new myTable();
 	wall = new Plane();
+	landscape = new Plane();
 	boardA = new Plane(BOARD_A_DIVISIONS);
 	boardB = new Plane(BOARD_B_DIVISIONS);
 	column = new myCylinder(30, 30, true);
 	lamp = new myLamp();
 	clock = new MyClock();
 	robot = new MyRobot(5, false);
+	wallWithWindow = new MyWallWithWindow(15, 8, 4, 2);
 
 	// Declares materials
 	materialA = new CGFappearance(ambA, difA, specA, shininessA);
@@ -183,6 +185,12 @@ void LightingScene::init() {
 	robotAppearance->setTexture("res/robot1.jpg");
 	robotAppearance->setTextureWrap(GL_REPEAT, GL_REPEAT);
 
+	// landscape material
+	landscapeAppearance = new CGFappearance(ambFloor, difFloor, specFloor,
+			shininessFloor);
+	landscapeAppearance->setTexture("res/bliss.jpg");
+	landscapeAppearance->setTextureWrap(GL_REPEAT, GL_REPEAT);
+
 	// defines shade model
 	glShadeModel(GL_SMOOTH);
 
@@ -219,20 +227,18 @@ void LightingScene::display() {
 	// ---- END Background, camera and axis setup
 
 	// ---- BEGIN Primitive drawing section
-	/*
-	 //First Table
-	 glPushMatrix();
-	 glTranslated(5, 0, 8);
-	 tableAppearance->apply();
-	 table->draw();
-	 glPopMatrix();
+	//First Table
+	glPushMatrix();
+	glTranslated(5, 0, 8);
+	tableAppearance->apply();
+	table->draw();
+	glPopMatrix();
 
-	 //Second Table
-	 glPushMatrix();
-	 glTranslated(12, 0, 8);
-	 table->draw();
-	 glPopMatrix();
-	 */
+	//Second Table
+	glPushMatrix();
+	glTranslated(12, 0, 8);
+	table->draw();
+	glPopMatrix();
 
 	//Floor
 	glPushMatrix();
@@ -242,14 +248,22 @@ void LightingScene::display() {
 	wall->drawWithRepeatedTexture(10, 12);
 	glPopMatrix();
 
-	//LeftWall
+	// landscape
 	glPushMatrix();
-	glTranslated(0, 4, 7.5);
+	glTranslated(-2, 4, 7.5);
 	glRotated(90.0, 1, 0, 0);
 	glRotated(-90.0, 0, 0, 1);
 	glScaled(15, 0.2, 8);
+	landscapeAppearance->apply();
+	landscape->drawWithStretchedTexture();
+	glPopMatrix();
+
+	//LeftWall
+	glPushMatrix();
+	glTranslated(0, 0, wallWithWindow->getWidth());
+	glRotated(90.0, 0, 1, 0);
 	windowAppearance->apply();
-	wall->drawWithCenteredTexture(2, 0.5);
+	wallWithWindow->draw();
 	glPopMatrix();
 
 	//PlaneWall

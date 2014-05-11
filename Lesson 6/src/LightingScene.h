@@ -9,6 +9,7 @@
 #include "myLamp.h"
 #include "MyClock.h"
 #include "MyRobot.h"
+#include "MyWallWithWindow.h"
 
 class LightingScene: public CGFscene {
 public:
@@ -28,6 +29,8 @@ public:
 
 	myTable* table;
 	Plane* wall;
+	Plane* landscape;
+	MyWallWithWindow* wallWithWindow;
 	Plane* boardA;
 	Plane* boardB;
 
@@ -45,6 +48,7 @@ public:
 	CGFappearance* windowAppearance;
 	CGFappearance* floorAppearance;
 	CGFappearance* robotAppearance;
+	CGFappearance* landscapeAppearance;
 };
 
 #endif
