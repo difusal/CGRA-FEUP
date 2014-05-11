@@ -18,7 +18,7 @@ MyRobot::MyRobot(int stacks, bool smooth) {
 	this->smooth = smooth;
 }
 
-void MyRobot::drawFace() {
+void MyRobot::drawFace(int face) {
 	double alpha = 360.0 / slices;
 	double x1, y1, x2, y2, x3, y3, x4, y4, tx4, ty4;
 	double dx12, dx43, dy12, dy43, z1, z2;
@@ -32,13 +32,13 @@ void MyRobot::drawFace() {
 	tx4 = 0.25 * cos(degToRad(-45));
 	ty4 = 0.25 * sin(degToRad(-45));
 
-	ttexx4 = 0.5 + 0.25 * cos(degToRad(-135)) * 0.5;
-	ttexy4 = 0.5 + 0.25 * sin(degToRad(-135)) * 0.5;
+	ttexx4 = 0.5 + 0.25 * cos(degToRad(-135 + face * 90)) * 0.5;
+	ttexy4 = 0.5 + 0.25 * sin(degToRad(-135 + face * 90)) * 0.5;
 
 	stackHeight = 1.0 / stacks;
 
 	for (int i = 0; i < slices / 4; i++) {
-		// calculating major points and major texture points
+		// calculating major points
 		x1 = tx4;
 		y1 = ty4;
 		x2 = x3;
@@ -49,14 +49,43 @@ void MyRobot::drawFace() {
 		ty4 = y4 = 0.25 * sin(degToRad(-45 + alpha * (i + 1)));
 		z2 = 1;
 
+		// calculating and major texture points
 		texx1 = ttexx4;
 		texy1 = ttexy4;
-		texx2 = i * 1.0 / (slices / 4);
-		texy2 = 0;
-		texx3 = (i + 1) * 1.0 / (slices / 4);
-		texy3 = 0;
-		ttexx4 = texx4 = 0.5 + 0.25 * cos(degToRad(-135 + alpha * (i + 1))) * 0.5;
-		ttexy4 = texy4 = 0.5 + 0.25 * sin(degToRad(-135 + alpha * (i + 1))) * 0.5;
+
+		switch (face) {
+		case 0:
+			texx2 = i * 1.0 / (slices / 4);
+			texy2 = 0;
+			texx3 = (i + 1) * 1.0 / (slices / 4);
+			texy3 = 0;
+			break;
+		case 1:
+			texx2 = 1;
+			texy2 = i * 1.0 / (slices / 4);
+			texx3 = 1;
+			texy3 = (i + 1) * 1.0 / (slices / 4);
+			break;
+		case 2:
+			texx2 = (slices / 4 - i) * 1.0 / (slices / 4);
+			texy2 = 1;
+			texx3 = (slices / 4 - i - 1) * 1.0 / (slices / 4);
+			texy3 = 1;
+			break;
+		case 3:
+			texx2 = 0;
+			texy2 = (slices / 4 - i) * 1.0 / (slices / 4);
+			texx3 = 0;
+			texy3 = (slices / 4 - i - 1) * 1.0 / (slices / 4);
+			break;
+		}
+
+		ttexx4 = texx4 = 0.5
+				+ 0.25 * cos(degToRad(-135 + face * 90 + alpha * (i + 1)))
+						* 0.5;
+		ttexy4 = texy4 = 0.5
+				+ 0.25 * sin(degToRad(-135 + face * 90 + alpha * (i + 1)))
+						* 0.5;
 
 		// calculating interpolation data with major points
 		dx12 = (x2 - x1) / stacks;
@@ -183,7 +212,7 @@ void MyRobot::draw() {
 	for (int i = 0; i < 4; i++) {
 		glPushMatrix();
 		glRotated(i * 90.0, 0, 0, 1);
-		drawFace();
+		drawFace(i);
 		glPopMatrix();
 	}
 
