@@ -324,6 +324,9 @@ void LightingScene::display() {
 	case METAL:
 		robotAppearance->setTexture("res/metalRobot.jpg");
 		break;
+	case MATRIX:
+		robotAppearance->setTexture("res/matrixRobot.jpg");
+		break;
 	}
 	robotAppearance->apply();
 	robot->draw();

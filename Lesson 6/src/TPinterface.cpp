@@ -152,6 +152,7 @@ void TPinterface::initRobotPanel() {
 
 	robotListbox->add_item(BASIC, "Basic");
 	robotListbox->add_item(METAL, "Metal");
+	robotListbox->add_item(MATRIX, "Matrix");
 
 	addSeparatorToPanel(robotPanel);
 

@@ -6,7 +6,7 @@
 #include <vector>
 
 enum RobotTexureID {
-	BASIC, METAL
+	BASIC, METAL, MATRIX
 };
 
 double degToRad(double deg);
