@@ -19,6 +19,9 @@ public:
 	void drawFace(int face);
 	void draw();
 	virtual ~MyRobot();
+
+	double rotation;
+	double x, z;
 };
 
 #endif /* MYROBOT_H_ */

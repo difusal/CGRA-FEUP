@@ -16,6 +16,10 @@ MyRobot::MyRobot(int stacks, bool smooth) {
 	this->slices = 12;
 	this->stacks = stacks;
 	this->smooth = smooth;
+
+	rotation = 135;
+	x = 0;
+	z = 0;
 }
 
 void MyRobot::drawFace(int face) {
@@ -181,7 +185,8 @@ void MyRobot::draw() {
 
 	glPushMatrix();
 
-	glTranslated(7.5, 0, 7.5);
+	glTranslated(7.5 + x, 0, 7.5 + z);
+	glRotated(rotation, 0, 1, 0);
 	glRotated(-90, 1, 0, 0);
 
 	// top
@@ -220,5 +225,4 @@ void MyRobot::draw() {
 }
 
 MyRobot::~MyRobot() {
-	// TODO Auto-generated destructor stub
 }

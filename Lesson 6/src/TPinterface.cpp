@@ -1,5 +1,8 @@
 #include "TPinterface.h"
+
+#include <cmath>
 #include "LightingScene.h"
+#include "Utilities.h"
 
 TPinterface::TPinterface() {
 	testVar = 0;
@@ -7,13 +10,32 @@ TPinterface::TPinterface() {
 
 void TPinterface::processKeyboard(unsigned char key, int x, int y) {
 	// Uncomment below if you would like to process the default keys (e.g. 's' for snapshot, 'Esc' for exiting, ...)
-	// CGFinterface::processKeyboard(key, x, y);
+	CGFinterface::processKeyboard(key, x, y);
+
+	MyRobot* robot = ((LightingScene*) scene)->robot;
+	double moveSpeed = 0.05, rotationSpeed = 2;
 
 	switch (key) {
+	case 'i':
+		// move forward
+		robot->x += moveSpeed * sin(degToRad(robot->rotation + 90));
+		robot->z += moveSpeed * cos(degToRad(robot->rotation + 90));
+		break;
+	case 'j':
+		// rotate left
+		robot->rotation += rotationSpeed;
+		break;
+	case 'k':
+		// move backwards
+		robot->x -= moveSpeed * sin(degToRad(robot->rotation + 90));
+		robot->z -= moveSpeed * cos(degToRad(robot->rotation + 90));
+		break;
+	case 'l':
+		// rotate right
+		robot->rotation -= rotationSpeed;
+		break;
 	case 'a':
-		// This is an example of accessing the associated scene
-		// To test, create the function toggleSomething in your scene to activate/deactivate something
-		((LightingScene *) scene)->toggleSomething();
+		((LightingScene*) scene)->toggleSomething();
 		break;
 	}
 }

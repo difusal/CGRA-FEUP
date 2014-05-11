@@ -21,6 +21,8 @@ public:
 	int sceneVar;
 	void toggleSomething();
 
+	bool showTables;
+
 	CGFlight* light0;
 	CGFlight* light1;
 	CGFlight* light2;
@@ -33,7 +35,6 @@ public:
 	MyWallWithWindow* wallWithWindow;
 	Plane* boardA;
 	Plane* boardB;
-
 	myCylinder* column;
 	myLamp* lamp;
 	MyClock* clock;

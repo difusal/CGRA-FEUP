@@ -93,6 +93,8 @@ void LightingScene::init() {
 	//glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbientLight);
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientNull);
 
+	showTables = true;
+
 	// Declares and enables lights, with null ambient component
 	light0 = new CGFlight(GL_LIGHT0, light0_pos);
 	light0->setSpecular(yellow);
@@ -227,18 +229,26 @@ void LightingScene::display() {
 	// ---- END Background, camera and axis setup
 
 	// ---- BEGIN Primitive drawing section
-	//First Table
-	glPushMatrix();
-	glTranslated(5, 0, 8);
-	tableAppearance->apply();
-	table->draw();
-	glPopMatrix();
+	if (showTables) {
+		// first Table
+		glPushMatrix();
+		glTranslated(5, 0, 8);
+		tableAppearance->apply();
+		table->draw();
+		glPopMatrix();
 
-	//Second Table
-	glPushMatrix();
-	glTranslated(12, 0, 8);
-	table->draw();
-	glPopMatrix();
+		// second Table
+		glPushMatrix();
+		glTranslated(12, 0, 8);
+		table->draw();
+		glPopMatrix();
+
+		// lamp
+		glPushMatrix();
+		glTranslated(3.5, table->getHeight(), 7.5);
+		lamp->draw();
+		glPopMatrix();
+	}
 
 	//Floor
 	glPushMatrix();
@@ -307,12 +317,6 @@ void LightingScene::display() {
 	column->draw();
 	glPopMatrix();
 
-	// Lamp
-	glPushMatrix();
-	glTranslated(3.5, table->getHeight(), 7.5);
-	lamp->draw();
-	glPopMatrix();
-
 	// Clock
 	glPushMatrix();
 	glTranslated(7.5, 7, 0);
@@ -353,5 +357,5 @@ LightingScene::~LightingScene() {
 }
 
 void LightingScene::toggleSomething() {
-
+	showTables = !showTables;
 }
