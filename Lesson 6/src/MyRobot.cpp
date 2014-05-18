@@ -18,7 +18,7 @@ MyRobot::MyRobot(int stacks, bool smooth) {
 	this->smooth = smooth;
 
 	rotation = 135;
-	x = z = 0;
+	x = z = 7.5;
 	wireframe = 0;
 }
 
@@ -53,7 +53,7 @@ void MyRobot::drawFace(int face) {
 		ty4 = y4 = 0.25 * sin(degToRad(-45 + alpha * (i + 1)));
 		z2 = 1;
 
-		// calculating and major texture points
+		// calculating major texture points
 		texx1 = ttexx4;
 		texy1 = ttexy4;
 
@@ -188,7 +188,7 @@ void MyRobot::draw() {
 
 	glPushMatrix();
 
-	glTranslated(7.5 + x, 0, 7.5 + z);
+	glTranslated(x, 0, z);
 	glRotated(rotation, 0, 1, 0);
 	glRotated(-90, 1, 0, 0);
 

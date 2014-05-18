@@ -38,6 +38,16 @@ void drawMyRect(double x1, double y1, double x2, double y2,
 		glEnable(GL_TEXTURE_2D);
 }
 
+vector<double> normalizeVector(vector<double> normal) {
+	double t = sqrt(pow(normal[0], 2) + pow(normal[1], 2) + pow(normal[2], 2));
+
+	normal[0] /= t;
+	normal[1] /= t;
+	normal[2] /= t;
+
+	return normal;
+}
+
 // Newell's method
 vector<double> calculateSurfaceNormal(vector<vector<double> > polygonVertexes) {
 	vector<double> normal(3);
@@ -54,5 +64,5 @@ vector<double> calculateSurfaceNormal(vector<vector<double> > polygonVertexes) {
 		normal[z] += (current[x] - next[x]) * (current[y] + next[y]);
 	}
 
-	return normal;
+	return normalizeVector(normal);
 }
