@@ -12,7 +12,6 @@
 # Compiled Static libraries
 *.lai
 *.la
-*.a
 *.lib
 
 # Executables
@@ -24,3 +23,4 @@ bin
 Debug
 *.cproject
 *.project
+*.settings
