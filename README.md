@@ -16,7 +16,7 @@ If you want to use the script, you just need to download the NewCGRAProject.zip
   - sh newCGRAProject.sh newProjectName
 
 ###How to install CGFLib on ubuntu:
-1. Run the following command:  
+1. Run the following command:
 ````sudo apt-get install freeglut3-dev libglew-dev````
 2. Install these package:
   - http://packages.ubuntu.com/nl/raring/libglui2c2
