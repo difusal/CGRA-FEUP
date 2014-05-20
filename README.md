@@ -6,20 +6,20 @@ A repository to host CGRA projects.
 Working on: refactoring
 
 Refactored Code:
-[x] LightingScene
-[x] Materials
-[] MyClock
-[] MyClockHand
-[] MyCylinder
-[] MyLamp
-[] MyRobot
-[] MySemiSphere
-[] MyTable
-[] MyUnitCube
-[] MyWallWithWindow
-[] Plane
-[] TPinterface
-[] Utilities
+- [x] LightingScene
+- [x] Materials
+- [ ] MyClock
+- [ ] MyClockHand
+- [ ] MyCylinder
+- [ ] MyLamp
+- [ ] MyRobot
+- [ ] MySemiSphere
+- [ ] MyTable
+- [ ] MyUnitCube
+- [ ] MyWallWithWindow
+- [ ] Plane
+- [ ] TPinterface
+- [ ] Utilities
 
 ###Important notes:
 ! Do not erase newCGRAProject.sh neither CGRA Application folder !  
