@@ -21,35 +21,6 @@ TPinterface::TPinterface() {
 	robotRadioGroupSelectedItemID = 0;
 }
 
-void TPinterface::processKeyboard(unsigned char key, int x, int y) {
-	// Uncomment below if you would like to process the default keys (e.g. 's' for snapshot, 'Esc' for exiting, ...)
-	CGFinterface::processKeyboard(key, x, y);
-
-	MyRobot* robot = ((LightingScene*) scene)->robot;
-	double moveSpeed = 0.05, rotationSpeed = 2;
-
-	switch (key) {
-	case 'i':
-		// move forward
-		robot->x += moveSpeed * sin(degToRad(robot->rotation + 90));
-		robot->z += moveSpeed * cos(degToRad(robot->rotation + 90));
-		break;
-	case 'j':
-		// rotate left
-		robot->rotation += rotationSpeed;
-		break;
-	case 'k':
-		// move backwards
-		robot->x -= moveSpeed * sin(degToRad(robot->rotation + 90));
-		robot->z -= moveSpeed * cos(degToRad(robot->rotation + 90));
-		break;
-	case 'l':
-		// rotate right
-		robot->rotation -= rotationSpeed;
-		break;
-	}
-}
-
 void TPinterface::initGUI() {
 	initLightsPanel();
 	addColumn();
@@ -61,45 +32,6 @@ void TPinterface::initGUI() {
 	addColumn();
 
 	initOthersPanel();
-}
-
-void TPinterface::processGUI(GLUI_Control* ctrl) {
-	switch (ctrl->user_id) {
-	case LIGHT0:
-		((LightingScene*) scene)->light0->disable();
-		if (((LightingScene*) scene)->light0IsOn)
-			((LightingScene*) scene)->light0->enable();
-		break;
-	case LIGHT1:
-		((LightingScene*) scene)->light1->disable();
-		if (((LightingScene*) scene)->light1IsOn)
-			((LightingScene*) scene)->light1->enable();
-		break;
-	case LIGHT2:
-		((LightingScene*) scene)->light2->disable();
-		if (((LightingScene*) scene)->light2IsOn)
-			((LightingScene*) scene)->light2->enable();
-		break;
-	case LIGHT3:
-		((LightingScene*) scene)->light3->disable();
-		if (((LightingScene*) scene)->light3IsOn)
-			((LightingScene*) scene)->light3->enable();
-		break;
-	case PAUSE_BTN:
-		((LightingScene*) scene)->clock->clockIsOn = 0;
-		break;
-	case RESTART_BTN:
-		((LightingScene*) scene)->clock->clockIsOn = 1;
-		break;
-	case ROBOT_LISTBOX:
-		((LightingScene*) scene)->robotTextureID =
-				(RobotTexureID) robotListBoxSelectedItemID;
-		break;
-	case ROBOT_RADIO_GROUP:
-		((LightingScene*) scene)->robot->wireframe =
-				robotRadioGroupSelectedItemID;
-		break;
-	};
 }
 
 void TPinterface::initLightsPanel() {
@@ -175,3 +107,73 @@ void TPinterface::initOthersPanel() {
 	addCheckboxToPanel(othersPanel, text,
 			&(((LightingScene*) scene)->showTables), SHOW_TABLES);
 }
+void TPinterface::processGUI(GLUI_Control* ctrl) {
+	switch (ctrl->user_id) {
+	case LIGHT0:
+		((LightingScene*) scene)->light0->disable();
+		if (((LightingScene*) scene)->light0IsOn)
+			((LightingScene*) scene)->light0->enable();
+		break;
+	case LIGHT1:
+		((LightingScene*) scene)->light1->disable();
+		if (((LightingScene*) scene)->light1IsOn)
+			((LightingScene*) scene)->light1->enable();
+		break;
+	case LIGHT2:
+		((LightingScene*) scene)->light2->disable();
+		if (((LightingScene*) scene)->light2IsOn)
+			((LightingScene*) scene)->light2->enable();
+		break;
+	case LIGHT3:
+		((LightingScene*) scene)->light3->disable();
+		if (((LightingScene*) scene)->light3IsOn)
+			((LightingScene*) scene)->light3->enable();
+		break;
+	case PAUSE_BTN:
+		((LightingScene*) scene)->clock->clockIsOn = 0;
+		break;
+	case RESTART_BTN:
+		((LightingScene*) scene)->clock->clockIsOn = 1;
+		break;
+	case ROBOT_LISTBOX:
+		((LightingScene*) scene)->robotTextureID =
+				(RobotTexureID) robotListBoxSelectedItemID;
+		break;
+	case ROBOT_RADIO_GROUP:
+		((LightingScene*) scene)->robot->wireframe =
+				robotRadioGroupSelectedItemID;
+		break;
+	};
+}
+
+void TPinterface::processKeyboard(unsigned char key, int x, int y) {
+	// Uncomment below if you would like to process the default keys (e.g. 's' for snapshot, 'Esc' for exiting, ...)
+	CGFinterface::processKeyboard(key, x, y);
+
+	MyRobot* robot = ((LightingScene*) scene)->robot;
+	double moveSpeed = 0.05, rotationSpeed = 2;
+
+	switch (key) {
+	case 'i':
+		// move forward
+		robot->x += moveSpeed * sin(degToRad(robot->rotation + 90));
+		robot->z += moveSpeed * cos(degToRad(robot->rotation + 90));
+		break;
+	case 'j':
+		// rotate left
+		robot->rotation += rotationSpeed;
+		break;
+	case 'k':
+		// move backwards
+		robot->x -= moveSpeed * sin(degToRad(robot->rotation + 90));
+		robot->z -= moveSpeed * cos(degToRad(robot->rotation + 90));
+		break;
+	case 'l':
+		// rotate right
+		robot->rotation -= rotationSpeed;
+		break;
+	default:
+		break;
+	}
+}
+

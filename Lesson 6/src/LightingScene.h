@@ -2,6 +2,8 @@
 #define LightingScene_H
 
 #include "Materials.h"
+#include "Utilities.h"
+
 #include "myTable.h"
 #include "Plane.h"
 #include "myCylinder.h"
@@ -9,14 +11,22 @@
 #include "MyClock.h"
 #include "MyRobot.h"
 #include "MyWallWithWindow.h"
-#include "Utilities.h"
 
 class LightingScene: public CGFscene {
 public:
 	void init();
 	void initLights();
+
 	void update(unsigned long sysTime);
+
 	void display();
+	void backgroundCameraAndAxisSetup();
+	void drawSceneObjects();
+	void drawFloorAndWalls();
+	void drawTables();
+	void drawColumn();
+	void drawRobot();
+
 	~LightingScene();
 
 	void toggleShowTables();
@@ -31,6 +41,8 @@ public:
 	CGFlight* light3;
 	CGFlight* lightWindow;
 
+	Materials* materials;
+
 	myTable* table;
 	Plane* wall;
 	Plane* landscape;
@@ -41,8 +53,6 @@ public:
 	myLamp* lamp;
 	MyClock* clock;
 	MyRobot* robot;
-
-	Materials* materials;
 };
 
 #endif

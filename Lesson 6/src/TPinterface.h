@@ -8,13 +8,13 @@ public:
 	TPinterface();
 
 	virtual void initGUI();
-	virtual void processGUI(GLUI_Control *ctrl);
-	virtual void processKeyboard(unsigned char key, int x, int y);
-
 	void initLightsPanel();
 	void initClockPanel();
 	void initRobotPanel();
 	void initOthersPanel();
+
+	virtual void processGUI(GLUI_Control *ctrl);
+	virtual void processKeyboard(unsigned char key, int x, int y);
 
 	int robotListBoxSelectedItemID;
 	int robotRadioGroupSelectedItemID;

@@ -4,28 +4,36 @@
 #include "CGFaxis.h"
 #include "CGFapplication.h"
 
-float pi = acos(-1.0);
-float deg2rad = pi / 180.0;
-
 #define BOARD_HEIGHT 6.0
 #define BOARD_WIDTH 6.4
-
-// lights positions
-float light0_pos[4] = { 4, 6.0, 1.0, 1.0 };
-float light1_pos[4] = { 10.5, 6.0, 1.0, 1.0 };
-float light2_pos[4] = { 10.5, 6.0, 5.0, 1.0 };
-float light3_pos[4] = { 4, 6.0, 5.0, 1.0 };
-float lightWindow_pos[4] = { 0, 4.0, 7.5, 1.0 };
-
-// global ambient light (do not confuse with ambient component of individual lights)
-float globalAmbientLight[4] = { 0.2, 0.2, 0.2, 1.0 };
 
 // number of board divisions
 #define BOARD_A_DIVISIONS 30
 #define BOARD_B_DIVISIONS 100
 
-float ambientNull[4] = { 0, 0, 0, 1 };
-float yellow[4] = { 1, 1, 0, 1 };
+void LightingScene::init() {
+	glEnable(GL_NORMALIZE);
+	glShadeModel(GL_SMOOTH);
+
+	initLights();
+	materials = new Materials();
+
+	// scene elements
+	table = new myTable();
+	wall = new Plane();
+	landscape = new Plane();
+	boardA = new Plane(BOARD_A_DIVISIONS);
+	boardB = new Plane(BOARD_B_DIVISIONS);
+	column = new myCylinder(30, 30, true);
+	lamp = new myLamp();
+	clock = new MyClock();
+	robot = new MyRobot(5, false);
+	wallWithWindow = new MyWallWithWindow(15, 8, 4, 2);
+
+	showTables = 1;
+	robotTextureID = BASIC;
+	setUpdatePeriod(100);
+}
 
 void LightingScene::initLights() {
 	// enables lighting computations
@@ -35,7 +43,19 @@ void LightingScene::initLights() {
 	glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
 
 	// define ambient light (do not confuse with ambient component of individual lights)
+	float ambientNull[4] = { 0, 0, 0, 1 };
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientNull);
+
+	// global ambient light (do not confuse with ambient component of individual lights)
+	float globalAmbientLight[4] = { 0.2, 0.2, 0.2, 1.0 };
+	float yellow[4] = { 1, 1, 0, 1 };
+
+	// lights positions
+	float light0_pos[4] = { 4, 6.0, 1.0, 1.0 };
+	float light1_pos[4] = { 10.5, 6.0, 1.0, 1.0 };
+	float light2_pos[4] = { 10.5, 6.0, 5.0, 1.0 };
+	float light3_pos[4] = { 4, 6.0, 5.0, 1.0 };
+	float lightWindow_pos[4] = { 0, 4.0, 7.5, 1.0 };
 
 	// declares and enables lights, with null ambient component
 	light0 = new CGFlight(GL_LIGHT0, light0_pos);
@@ -71,36 +91,19 @@ void LightingScene::initLights() {
 	light0IsOn = light1IsOn = light2IsOn = light3IsOn = 1;
 }
 
-void LightingScene::init() {
-	glEnable(GL_NORMALIZE);
-	glShadeModel(GL_SMOOTH);
-
-	initLights();
-	materials = new Materials();
-
-	// scene elements
-	table = new myTable();
-	wall = new Plane();
-	landscape = new Plane();
-	boardA = new Plane(BOARD_A_DIVISIONS);
-	boardB = new Plane(BOARD_B_DIVISIONS);
-	column = new myCylinder(30, 30, true);
-	lamp = new myLamp();
-	clock = new MyClock();
-	robot = new MyRobot(5, false);
-	wallWithWindow = new MyWallWithWindow(15, 8, 4, 2);
-
-	showTables = 1;
-	robotTextureID = BASIC;
-	setUpdatePeriod(100);
-}
-
 void LightingScene::update(unsigned long sysTime) {
 	clock->update(sysTime);
 }
 
 void LightingScene::display() {
-	// ---- BEGIN Background, camera and axis setup
+	backgroundCameraAndAxisSetup();
+	drawSceneObjects();
+
+	// double-buffering
+	glutSwapBuffers();
+}
+
+void LightingScene::backgroundCameraAndAxisSetup() {
 	// Clear image and depth buffer every time we update the scene
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -119,30 +122,19 @@ void LightingScene::display() {
 
 	// Draw axis
 	axis.draw();
-	// ---- END Background, camera and axis setup
+}
 
-	// ---- BEGIN Primitive drawing section
-	if (showTables) {
-		// first Table
-		glPushMatrix();
-		glTranslated(5, 0, 8);
-		materials->getMaterial(TABLE)->apply();
-		table->draw();
-		glPopMatrix();
+void LightingScene::drawSceneObjects() {
+	drawFloorAndWalls();
 
-		// second Table
-		glPushMatrix();
-		glTranslated(12, 0, 8);
-		table->draw();
-		glPopMatrix();
+	if (showTables)
+		drawTables();
 
-		// lamp
-		glPushMatrix();
-		glTranslated(3.5, table->getHeight(), 7.5);
-		lamp->draw();
-		glPopMatrix();
-	}
+	drawColumn();
+	drawRobot();
+}
 
+void LightingScene::drawFloorAndWalls() {
 	//Floor
 	glPushMatrix();
 	glTranslated(7.5, 0, 7.5);
@@ -202,22 +194,46 @@ void LightingScene::display() {
 	boardB->drawWithFittedTexture(offset);
 	glPopMatrix();
 
-	// Column
-	glPushMatrix();
-	glTranslated(1, 0, 14);
-	glScaled(1, 8, 1);
-	glRotated(-90, 1, 0, 0);
-	column->draw();
-	glPopMatrix();
-
 	// Clock
 	glPushMatrix();
 	glTranslated(7.5, 7, 0);
 	glScaled(1, 1, 0.5);
 	clock->draw();
 	glPopMatrix();
+}
 
-	// Robot
+void LightingScene::drawTables() {
+	// first Table
+	glPushMatrix();
+	glTranslated(5, 0, 8);
+	materials->getMaterial(TABLE)->apply();
+	table->draw();
+	glPopMatrix();
+
+	// second Table
+	glPushMatrix();
+	glTranslated(12, 0, 8);
+	table->draw();
+	glPopMatrix();
+
+	// lamp
+	glPushMatrix();
+	glTranslated(3.5, table->getHeight(), 7.5);
+	lamp->draw();
+	glPopMatrix();
+}
+
+void LightingScene::drawColumn() {
+	glPushMatrix();
+	glTranslated(1, 0, 14);
+	glScaled(1, 8, 1);
+	glRotated(-90, 1, 0, 0);
+	materials->getMaterial(BOARD)->apply();
+	column->draw();
+	glPopMatrix();
+}
+
+void LightingScene::drawRobot() {
 	switch (robotTextureID) {
 	case BASIC:
 		materials->getMaterial(ROBOT)->setTexture("res/basicRobot.jpg");
@@ -229,12 +245,9 @@ void LightingScene::display() {
 		materials->getMaterial(ROBOT)->setTexture("res/matrixRobot.jpg");
 		break;
 	}
+
 	materials->getMaterial(ROBOT)->apply();
 	robot->draw();
-	// ---- END Primitive drawing section
-
-	// double-buffering
-	glutSwapBuffers();
 }
 
 LightingScene::~LightingScene() {

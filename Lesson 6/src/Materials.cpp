@@ -23,6 +23,8 @@ Materials::Materials() {
 	materialA = new CGFappearance(ambA, difA, specA, shininessA);
 	materialB = new CGFappearance(ambB, difB, specB, shininessB);
 	materialC = new CGFappearance(ambC, difC, specC, shininessC);
+	materialC->setTexture("res/wall.png");
+	materialC->setTextureWrap(GL_REPEAT, GL_REPEAT);
 
 	// coefficients for table material
 	float ambTable[3] = { 0.2, 0.2, 0.2 };
