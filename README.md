@@ -7,18 +7,18 @@ Working on: refactoring.
 Refactored Code:
 - [x] LightingScene
 - [x] Materials
-- [ ] MyClock
-- [ ] MyClockHand
+- [x] MyClock
+- [x] MyClockHand
 - [ ] MyCylinder
-- [ ] MyLamp
+- [x] MyLamp
 - [ ] MyRobot
 - [ ] MySemiSphere
-- [ ] MyTable
-- [ ] MyUnitCube
+- [x] MyTable
+- [x] MyUnitCube
 - [ ] MyWallWithWindow
 - [ ] Plane
-- [ ] TPinterface
-- [ ] Utilities
+- [x] TPinterface
+- [x] Utilities
 
 ###Important notes:
 ! Do not erase newCGRAProject.sh neither CGRA Application folder !  

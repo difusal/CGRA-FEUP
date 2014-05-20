@@ -16,8 +16,8 @@ private:
 	bool smooth;
 public:
 	MyRobot(int stacks, bool smooth);
-	void drawFace(int face);
 	void draw();
+	void drawFace(int face);
 	virtual ~MyRobot();
 
 	double rotation;

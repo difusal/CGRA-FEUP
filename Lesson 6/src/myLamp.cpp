@@ -7,37 +7,36 @@
 
 #include "myLamp.h"
 
-// Coefficients for white plastic
-float whitePlasticAmb[3] = { 0.2, 0.2, 0.2 };
-float whitePlasticDif[3] = { 0.9, 0.9, 0.9 };
-float whitePlasticSpec[3] = { 0.5, 0.5, 0.5 };
-float whitePlasticShininess = 60.f;
-
-// Coefficients for blue plastic
-float bluePlasticAmb[3] = { 0, 0, 0.2 };
-float bluePlasticDif[3] = { 0.4, 0.4, 0.8 };
-float bluePlasticSpec[3] = { 0.2, 0.2, 0.2 };
-float bluePlasticShininess = 120.f;
-
 myLamp::myLamp() {
-	int slices = 30;
+	// coefficients for white plastic
+	float whitePlasticAmb[3] = { 0.2, 0.2, 0.2 };
+	float whitePlasticDif[3] = { 0.9, 0.9, 0.9 };
+	float whitePlasticSpec[3] = { 0.5, 0.5, 0.5 };
+	float whitePlasticShininess = 60.f;
+	whitePlastic = new CGFappearance(whitePlasticAmb, whitePlasticDif,
+			whitePlasticSpec, whitePlasticShininess);
 
+	// coefficients for blue plastic
+	float bluePlasticAmb[3] = { 0, 0, 0.2 };
+	float bluePlasticDif[3] = { 0.4, 0.4, 0.8 };
+	float bluePlasticSpec[3] = { 0.2, 0.2, 0.2 };
+	float bluePlasticShininess = 120.f;
+	bluePlastic = new CGFappearance(bluePlasticAmb, bluePlasticDif,
+			bluePlasticSpec, bluePlasticShininess);
+
+	int slices = 30;
 	base = new mySemiSphere(slices, 30, true);
 	body = new myCylinder(slices, 30, true);
 	top = new mySemiSphere(slices, 30, true);
-
-	whitePlastic = new CGFappearance(whitePlasticAmb, whitePlasticDif,
-			whitePlasticSpec, whitePlasticShininess);
-	bluePlastic = new CGFappearance(bluePlasticAmb, bluePlasticDif,
-			bluePlasticSpec, bluePlasticShininess);
 }
 
 myLamp::~myLamp() {
+	delete (whitePlastic);
+	delete (bluePlastic);
+
 	delete (base);
 	delete (body);
 	delete (top);
-
-	delete (whitePlastic);
 }
 
 void myLamp::draw() {
@@ -47,6 +46,7 @@ void myLamp::draw() {
 	double bodyHeight = 1;
 	double topRadius = 0.8;
 
+	// base
 	glPushMatrix();
 	glScaled(baseRadius, baseHeight, baseRadius);
 	glRotated(-90, 1, 0, 0);
@@ -54,12 +54,14 @@ void myLamp::draw() {
 	base->draw();
 	glPopMatrix();
 
+	// body
 	glPushMatrix();
 	glScaled(bodyRadius, bodyHeight, bodyRadius);
 	glRotated(-90, 1, 0, 0);
 	body->draw();
 	glPopMatrix();
 
+	// top
 	glPushMatrix();
 	glTranslated(0, bodyHeight, 0);
 	glScaled(topRadius, 1, topRadius);

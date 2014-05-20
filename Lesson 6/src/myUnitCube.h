@@ -2,8 +2,7 @@
 
 #include "CGFobject.h"
 
-class myUnitCube: public CGFobject
-{
+class myUnitCube: public CGFobject {
 public:
 	myUnitCube(void);
 	~myUnitCube(void);

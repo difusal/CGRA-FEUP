@@ -7,7 +7,7 @@ myTable::~myTable(void) {
 }
 
 void myTable::draw() {
-	// pernas
+	// legs
 	glPushMatrix();
 	glTranslated(5 / 2, 3.5 / 2, 3 / 2);
 	glScaled(0.3, 3.5, 0.3);
@@ -32,7 +32,7 @@ void myTable::draw() {
 	cube.draw(false);
 	glPopMatrix();
 
-	// tampo
+	// tabletop
 	glPushMatrix();
 	glTranslated(0, 3.5, 0);
 	glScaled(5, 0.3, 3);

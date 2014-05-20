@@ -2,9 +2,12 @@
 
 #include "myUnitCube.h"
 
+const double height = 3.5 + 0.3 / 2;
+
 class myTable {
 private:
 	myUnitCube cube;
+
 public:
 	myTable(void);
 	~myTable(void);
@@ -12,7 +15,7 @@ public:
 	void draw();
 
 	double getHeight() {
-		return 3.5 + 0.3 / 2;
+		return height;
 	}
 };
 

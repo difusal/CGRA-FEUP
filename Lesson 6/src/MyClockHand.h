@@ -13,11 +13,9 @@
 
 class MyClockHand {
 private:
-	myCylinder* pointer;
-	float size;
-	float angle;
-
 	CGFappearance* texture;
+	myCylinder* pointer;
+	float size, angle;
 
 public:
 	MyClockHand(float size);

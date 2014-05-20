@@ -8,6 +8,16 @@
 #include "MyClock.h"
 
 MyClock::MyClock() {
+	// Coefficients for clock material
+	float amb[3] = { 0.2, 0.2, 0.2 };
+	float dif[3] = { 0.6, 0.6, 0.6 };
+	float spec[3] = { 0.2, 0.2, 0.2 };
+	float shininess = 60.f;
+
+	texture = new CGFappearance(amb, dif, spec, shininess);
+	texture->setTexture("res/clock.png");
+	texture->setTextureWrap(GL_REPEAT, GL_REPEAT);
+
 	clockBody = new myCylinder(12, 1, true);
 
 	hoursPtr = new MyClockHand(0.4);
@@ -19,18 +29,7 @@ MyClock::MyClock() {
 	secondsPtr = new MyClockHand(0.7);
 	secondsPtr->setAngle(270);
 
-	// Coefficients for clock material
-	float amb[3] = { 0.2, 0.2, 0.2 };
-	float dif[3] = { 0.6, 0.6, 0.6 };
-	float spec[3] = { 0.2, 0.2, 0.2 };
-	float shininess = 60.f;
-
-	texture = new CGFappearance(amb, dif, spec, shininess);
-	texture->setTexture("res/clock.png");
-	texture->setTextureWrap(GL_REPEAT, GL_REPEAT);
-
 	savedTime = 0;
-
 	clockIsOn = 1;
 }
 
@@ -59,10 +58,9 @@ void MyClock::draw() {
 }
 
 MyClock::~MyClock() {
+	delete (texture);
 	delete (clockBody);
 	delete (hoursPtr);
 	delete (minutesPtr);
 	delete (secondsPtr);
-
-	delete (texture);
 }

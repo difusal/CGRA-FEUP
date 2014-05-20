@@ -22,6 +22,56 @@ MyRobot::MyRobot(int stacks, bool smooth) {
 	wireframe = 0;
 }
 
+void MyRobot::draw() {
+	double alpha = 360.0 / slices;
+	double x1, y1;
+
+	if (wireframe)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	glPushMatrix();
+
+	glTranslated(x, 0, z);
+	glRotated(rotation, 0, 1, 0);
+	glRotated(-90, 1, 0, 0);
+
+	// top
+	glNormal3d(0, 0, 1);
+	glBegin(GL_POLYGON);
+	for (int i = 0; i < slices; i++) {
+		x1 = 0.25 * cos(degToRad(-45 + alpha * i));
+		y1 = 0.25 * sin(degToRad(-45 + alpha * i));
+
+		glTexCoord2d(0.5 + x1 * 0.5, 0.5 + y1 * 0.5);
+		glVertex3d(x1, y1, 1);
+	}
+	glEnd();
+
+	// base
+	glPushMatrix();
+	glRotated(180.0, 1, 0, 0);
+	glNormal3d(0, 0, 1);
+	glBegin(GL_POLYGON);
+	glVertex3d(-0.5, -0.5, 0);
+	glVertex3d(0.5, -0.5, 0);
+	glVertex3d(0.5, 0.5, 0);
+	glVertex3d(-0.5, 0.5, 0);
+	glEnd();
+	glPopMatrix();
+
+	// body
+	for (int i = 0; i < 4; i++) {
+		glPushMatrix();
+		glRotated(i * 90.0, 0, 0, 1);
+		drawFace(i);
+		glPopMatrix();
+	}
+
+	glPopMatrix();
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
 void MyRobot::drawFace(int face) {
 	double alpha = 360.0 / slices;
 	double x1, y1, x2, y2, x3, y3, x4, y4, tx4, ty4;
@@ -177,56 +227,6 @@ void MyRobot::drawFace(int face) {
 			texy4 = texy3;
 		}
 	}
-}
-
-void MyRobot::draw() {
-	double alpha = 360.0 / slices;
-	double x1, y1;
-
-	if (wireframe)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-	glPushMatrix();
-
-	glTranslated(x, 0, z);
-	glRotated(rotation, 0, 1, 0);
-	glRotated(-90, 1, 0, 0);
-
-	// top
-	glNormal3d(0, 0, 1);
-	glBegin(GL_POLYGON);
-	for (int i = 0; i < slices; i++) {
-		x1 = 0.25 * cos(degToRad(-45 + alpha * i));
-		y1 = 0.25 * sin(degToRad(-45 + alpha * i));
-
-		glTexCoord2d(0.5 + x1 * 0.5, 0.5 + y1 * 0.5);
-		glVertex3d(x1, y1, 1);
-	}
-	glEnd();
-
-	// base
-	glPushMatrix();
-	glRotated(180.0, 1, 0, 0);
-	glNormal3d(0, 0, 1);
-	glBegin(GL_POLYGON);
-	glVertex3d(-0.5, -0.5, 0);
-	glVertex3d(0.5, -0.5, 0);
-	glVertex3d(0.5, 0.5, 0);
-	glVertex3d(-0.5, 0.5, 0);
-	glEnd();
-	glPopMatrix();
-
-	// body
-	for (int i = 0; i < 4; i++) {
-		glPushMatrix();
-		glRotated(i * 90.0, 0, 0, 1);
-		drawFace(i);
-		glPopMatrix();
-	}
-
-	glPopMatrix();
-
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 MyRobot::~MyRobot() {

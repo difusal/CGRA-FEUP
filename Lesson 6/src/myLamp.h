@@ -13,12 +13,12 @@
 #include "CGFappearance.h"
 
 class myLamp {
+	CGFappearance* whitePlastic;
+	CGFappearance* bluePlastic;
+
 	mySemiSphere* base;
 	myCylinder* body;
 	mySemiSphere* top;
-
-	CGFappearance* whitePlastic;
-	CGFappearance* bluePlastic;
 
 public:
 	myLamp();

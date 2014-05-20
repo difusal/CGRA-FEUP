@@ -8,16 +8,15 @@
 #include "MyClockHand.h"
 
 MyClockHand::MyClockHand(float size) {
-	pointer = new myCylinder(12, 1, true);
-	this->size = size;
-	angle = 0;
-
 	float amb[3] = { 0.2, 0.2, 0.2 };
 	float dif[3] = { 0.1, 0.1, 0.1 };
 	float spec[3] = { 0.2, 0.2, 0.2 };
 	float shininess = 60.f;
-
 	texture = new CGFappearance(amb, dif, spec, shininess);
+
+	pointer = new myCylinder(12, 1, true);
+	this->size = size;
+	angle = 0;
 }
 
 void MyClockHand::draw() {

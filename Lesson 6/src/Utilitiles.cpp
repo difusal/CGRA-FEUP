@@ -39,11 +39,12 @@ void drawMyRect(double x1, double y1, double x2, double y2,
 }
 
 vector<double> normalizeVector(vector<double> normal) {
-	double t = sqrt(pow(normal[0], 2) + pow(normal[1], 2) + pow(normal[2], 2));
+	double length = sqrt(
+			pow(normal[0], 2) + pow(normal[1], 2) + pow(normal[2], 2));
 
-	normal[0] /= t;
-	normal[1] /= t;
-	normal[2] /= t;
+	normal[0] /= length;
+	normal[1] /= length;
+	normal[2] /= length;
 
 	return normal;
 }

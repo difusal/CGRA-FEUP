@@ -14,12 +14,11 @@
 
 class MyClock {
 private:
+	CGFappearance* texture;
 	myCylinder* clockBody;
 	MyClockHand* hoursPtr;
 	MyClockHand* minutesPtr;
 	MyClockHand* secondsPtr;
-
-	CGFappearance* texture;
 
 	unsigned long savedTime;
 
