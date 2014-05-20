@@ -1,8 +1,7 @@
 #ifndef LightingScene_H
 #define LightingScene_H
 
-#include "CGFscene.h"
-#include "CGFappearance.h"
+#include "Materials.h"
 #include "myTable.h"
 #include "Plane.h"
 #include "myCylinder.h"
@@ -15,6 +14,7 @@
 class LightingScene: public CGFscene {
 public:
 	void init();
+	void initLights();
 	void update(unsigned long sysTime);
 	void display();
 	~LightingScene();
@@ -42,16 +42,7 @@ public:
 	MyClock* clock;
 	MyRobot* robot;
 
-	CGFappearance* materialA;
-	CGFappearance* materialB;
-	CGFappearance* materialC;
-	CGFappearance* tableAppearance;
-	CGFappearance* slidesAppearance;
-	CGFappearance* boardAppearance;
-	CGFappearance* windowAppearance;
-	CGFappearance* floorAppearance;
-	CGFappearance* robotAppearance;
-	CGFappearance* landscapeAppearance;
+	Materials* materials;
 };
 
 #endif

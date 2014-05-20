@@ -24,74 +24,20 @@ float globalAmbientLight[4] = { 0.2, 0.2, 0.2, 1.0 };
 #define BOARD_A_DIVISIONS 30
 #define BOARD_B_DIVISIONS 100
 
-// coefficients for material A
-float ambA[3] = { 0.2, 0.2, 0.2 };
-float difA[3] = { 0.6, 0.6, 0.6 };
-float specA[3] = { 0, 0.8, 0.8 };
-float shininessA = 120.f;
-
-// coefficients for material B
-float ambB[3] = { 0.2, 0.2, 0.2 };
-float difB[3] = { 0.6, 0.6, 0.6 };
-float specB[3] = { 0.8, 0.8, 0.8 };
-float shininessB = 120.f;
-
-// Coefficients for material C
-float ambC[3] = { 0.3, 0.3, 0.3 };
-float difC[3] = { 0.3, 0.3, 0.3 };
-float specC[3] = { 0.2, 0.2, 0.2 };
-float shininessC = 120.f;
-
-// Coefficients for table material
-float ambTable[3] = { 0.2, 0.2, 0.2 };
-float difTable[3] = { 0.6, 0.6, 0.6 };
-float specTable[3] = { 0.2, 0.2, 0.2 };
-float shininessTable = 60.f;
-
-// Coefficients for slides material
-float ambSlides[3] = { 0.2, 0.2, 0.2 };
-float difSlides[3] = { 0.6, 0.6, 0.6 };
-float specSlides[3] = { 0.2, 0.2, 0.2 };
-float shininessSlides = 60.f;
-
-// Coefficients for board material
-float ambBoard[3] = { 0.4, 0.4, 0.4 };
-float difBoard[3] = { 0.4, 0.4, 0.4 };
-float specBoard[3] = { 0.8, 0.8, 0.8 };
-float shininessBoard = 128.f;
-
-// Coefficients for window material
-float ambWindow[3] = { 0.4, 0.4, 0.4 };
-float difWindow[3] = { 0.4, 0.4, 0.4 };
-float specWindow[3] = { 0.8, 0.8, 0.8 };
-float shininessWindow = 128.f;
-
-// Coefficients for floor material
-float ambFloor[3] = { 0.4, 0.4, 0.4 };
-float difFloor[3] = { 0.4, 0.4, 0.4 };
-float specFloor[3] = { 0.3, 0.3, 0.3 };
-float shininessFloor = 60.f;
-
 float ambientNull[4] = { 0, 0, 0, 1 };
 float yellow[4] = { 1, 1, 0, 1 };
 
-void LightingScene::init() {
-	// Enables lighting computations
+void LightingScene::initLights() {
+	// enables lighting computations
 	glEnable(GL_LIGHTING);
 
-	// Sets up some lighting parameters
-	// Computes lighting only using the front face normals and materials
+	// sets up some lighting parameters, computes lighting only using the front face normals and materials
 	glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
 
-	// Define ambient light (do not confuse with ambient component of individual lights)
-	//glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbientLight);
+	// define ambient light (do not confuse with ambient component of individual lights)
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientNull);
 
-	showTables = 1;
-	light0IsOn = light1IsOn = light2IsOn = light3IsOn = 1;
-	robotTextureID = BASIC;
-
-	// Declares and enables lights, with null ambient component
+	// declares and enables lights, with null ambient component
 	light0 = new CGFlight(GL_LIGHT0, light0_pos);
 	light0->setSpecular(yellow);
 	light0->setAmbient(ambientNull);
@@ -122,10 +68,17 @@ void LightingScene::init() {
 	lightWindow->setKq(0);
 	lightWindow->enable();
 
-	// Uncomment below to enable normalization of lighting normal vectors
-	glEnable(GL_NORMALIZE);
+	light0IsOn = light1IsOn = light2IsOn = light3IsOn = 1;
+}
 
-	//Declares scene elements
+void LightingScene::init() {
+	glEnable(GL_NORMALIZE);
+	glShadeModel(GL_SMOOTH);
+
+	initLights();
+	materials = new Materials();
+
+	// scene elements
 	table = new myTable();
 	wall = new Plane();
 	landscape = new Plane();
@@ -137,56 +90,8 @@ void LightingScene::init() {
 	robot = new MyRobot(5, false);
 	wallWithWindow = new MyWallWithWindow(15, 8, 4, 2);
 
-	// Declares materials
-	materialA = new CGFappearance(ambA, difA, specA, shininessA);
-	materialB = new CGFappearance(ambB, difB, specB, shininessB);
-	materialC = new CGFappearance(ambC, difC, specC, shininessC);
-
-	// table material
-	tableAppearance = new CGFappearance(ambTable, difTable, specTable,
-			shininessTable);
-	tableAppearance->setTexture("res/table.png");
-	tableAppearance->setTextureWrap(GL_REPEAT, GL_REPEAT);
-
-	// slides material
-	slidesAppearance = new CGFappearance(ambSlides, difSlides, specSlides,
-			shininessSlides);
-	slidesAppearance->setTexture("res/slides.png");
-	slidesAppearance->setTextureWrap(GL_CLAMP, GL_CLAMP);
-
-	// board material
-	boardAppearance = new CGFappearance(ambBoard, difBoard, specBoard,
-			shininessBoard);
-	boardAppearance->setTexture("res/board.png");
-	boardAppearance->setTextureWrap(GL_CLAMP, GL_CLAMP);
-
-	// window material
-	windowAppearance = new CGFappearance(ambWindow, difWindow, specWindow,
-			shininessWindow);
-	windowAppearance->setTexture("res/window.png");
-	windowAppearance->setTextureWrap(GL_CLAMP, GL_CLAMP);
-
-	// floor material
-	floorAppearance = new CGFappearance(ambFloor, difFloor, specFloor,
-			shininessFloor);
-	floorAppearance->setTexture("res/floor.png");
-	floorAppearance->setTextureWrap(GL_REPEAT, GL_REPEAT);
-
-	// robot material
-	robotAppearance = new CGFappearance(ambFloor, difFloor, specFloor,
-			shininessFloor);
-	robotAppearance->setTexture("res/basicRobot.jpg");
-	robotAppearance->setTextureWrap(GL_REPEAT, GL_REPEAT);
-
-	// landscape material
-	landscapeAppearance = new CGFappearance(ambFloor, difFloor, specFloor,
-			shininessFloor);
-	landscapeAppearance->setTexture("res/bliss.jpg");
-	landscapeAppearance->setTextureWrap(GL_REPEAT, GL_REPEAT);
-
-	// defines shade model
-	glShadeModel(GL_SMOOTH);
-
+	showTables = 1;
+	robotTextureID = BASIC;
 	setUpdatePeriod(100);
 }
 
@@ -221,7 +126,7 @@ void LightingScene::display() {
 		// first Table
 		glPushMatrix();
 		glTranslated(5, 0, 8);
-		tableAppearance->apply();
+		materials->getMaterial(TABLE)->apply();
 		table->draw();
 		glPopMatrix();
 
@@ -242,7 +147,7 @@ void LightingScene::display() {
 	glPushMatrix();
 	glTranslated(7.5, 0, 7.5);
 	glScaled(15, 0.2, 15);
-	floorAppearance->apply();
+	materials->getMaterial(FLOOR)->apply();
 	wall->drawWithRepeatedTexture(10, 12);
 	glPopMatrix();
 
@@ -252,7 +157,7 @@ void LightingScene::display() {
 	glRotated(90.0, 1, 0, 0);
 	glRotated(-90.0, 0, 0, 1);
 	glScaled(15, 0.2, 8);
-	landscapeAppearance->apply();
+	materials->getMaterial(LANDSCAPE)->apply();
 	landscape->drawWithStretchedTexture();
 	glPopMatrix();
 
@@ -260,7 +165,7 @@ void LightingScene::display() {
 	glPushMatrix();
 	glTranslated(0, 0, wallWithWindow->getWidth());
 	glRotated(90.0, 0, 1, 0);
-	windowAppearance->apply();
+	materials->getMaterial(WINDOW)->apply();
 	wallWithWindow->draw();
 	glPopMatrix();
 
@@ -269,7 +174,7 @@ void LightingScene::display() {
 	glTranslated(7.5, 4, 0);
 	glRotated(90.0, 1, 0, 0);
 	glScaled(15, 0.2, 8);
-	materialC->apply();
+	materials->getMaterial(C)->apply();
 	wall->drawWithStretchedTexture();
 	glPopMatrix();
 
@@ -278,7 +183,7 @@ void LightingScene::display() {
 	glTranslated(4, 4, 0.2);
 	glScaled(BOARD_WIDTH, BOARD_HEIGHT, 1);
 	glRotated(90.0, 1, 0, 0);
-	slidesAppearance->apply();
+	materials->getMaterial(SLIDES)->apply();
 	boardA->drawWithStretchedTexture();
 	glPopMatrix();
 
@@ -287,7 +192,7 @@ void LightingScene::display() {
 	glTranslated(10.5, 4, 0.2);
 	glScaled(BOARD_WIDTH, BOARD_HEIGHT, 1);
 	glRotated(90.0, 1, 0, 0);
-	boardAppearance->apply();
+	materials->getMaterial(BOARD)->apply();
 	int textureWidth, textureHeight;
 	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &textureWidth);
 	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT,
@@ -315,16 +220,16 @@ void LightingScene::display() {
 	// Robot
 	switch (robotTextureID) {
 	case BASIC:
-		robotAppearance->setTexture("res/basicRobot.jpg");
+		materials->getMaterial(ROBOT)->setTexture("res/basicRobot.jpg");
 		break;
 	case METAL:
-		robotAppearance->setTexture("res/metalRobot.jpg");
+		materials->getMaterial(ROBOT)->setTexture("res/metalRobot.jpg");
 		break;
 	case MATRIX:
-		robotAppearance->setTexture("res/matrixRobot.jpg");
+		materials->getMaterial(ROBOT)->setTexture("res/matrixRobot.jpg");
 		break;
 	}
-	robotAppearance->apply();
+	materials->getMaterial(ROBOT)->apply();
 	robot->draw();
 	// ---- END Primitive drawing section
 
@@ -337,22 +242,20 @@ LightingScene::~LightingScene() {
 	delete (light1);
 	delete (light2);
 	delete (light3);
+	delete (lightWindow);
 
 	delete (table);
 	delete (wall);
+	delete (landscape);
+	delete (wallWithWindow);
 	delete (boardA);
 	delete (boardB);
-
 	delete (column);
 	delete (lamp);
+	delete (clock);
 	delete (robot);
 
-	delete (materialA);
-	delete (materialB);
-	delete (materialC);
-	delete (tableAppearance);
-	delete (slidesAppearance);
-	delete (boardAppearance);
+	delete (materials);
 }
 
 void LightingScene::toggleShowTables() {

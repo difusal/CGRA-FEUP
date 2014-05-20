@@ -21,6 +21,7 @@
 
 bin
 Debug
+Default
 *.cproject
 *.project
 *.settings
