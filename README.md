@@ -1,9 +1,8 @@
 CGRA-FEUP
 =========
 
-A repository to host CGRA projects.
-
-Working on: refactoring
+A repository to host CGRA projects.  
+Working on: refactoring.
 
 Refactored Code:
 - [x] LightingScene
