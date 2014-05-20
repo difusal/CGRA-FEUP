@@ -10,31 +10,27 @@ float deg2rad = pi / 180.0;
 #define BOARD_HEIGHT 6.0
 #define BOARD_WIDTH 6.4
 
-// Positions for two lights
+// lights positions
 float light0_pos[4] = { 4, 6.0, 1.0, 1.0 };
 float light1_pos[4] = { 10.5, 6.0, 1.0, 1.0 };
-
 float light2_pos[4] = { 10.5, 6.0, 5.0, 1.0 };
 float light3_pos[4] = { 4, 6.0, 5.0, 1.0 };
-
 float lightWindow_pos[4] = { 0, 4.0, 7.5, 1.0 };
 
-// Global ambient light (do not confuse with ambient component of individual lights)
+// global ambient light (do not confuse with ambient component of individual lights)
 float globalAmbientLight[4] = { 0.2, 0.2, 0.2, 1.0 };
 
-// number of divisions
+// number of board divisions
 #define BOARD_A_DIVISIONS 30
 #define BOARD_B_DIVISIONS 100
 
-// Coefficients4 for material A
+// coefficients for material A
 float ambA[3] = { 0.2, 0.2, 0.2 };
 float difA[3] = { 0.6, 0.6, 0.6 };
-//float specA[3] = {0.2, 0.2, 0.2};
 float specA[3] = { 0, 0.8, 0.8 };
-//float shininessA = 10.f;
 float shininessA = 120.f;
 
-// Coefficients for material B
+// coefficients for material B
 float ambB[3] = { 0.2, 0.2, 0.2 };
 float difB[3] = { 0.6, 0.6, 0.6 };
 float specB[3] = { 0.8, 0.8, 0.8 };
