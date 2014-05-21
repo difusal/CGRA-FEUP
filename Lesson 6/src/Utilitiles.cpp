@@ -1,9 +1,11 @@
 #include "Utilities.h"
+
+#include <cmath>
 #include "CGFobject.h"
 
 using namespace std;
 
-const double pi180 = M_PI / 180;
+const double pi180 = acos(-1.0) / 180;
 
 double degToRad(double deg) {
 	return deg * pi180;

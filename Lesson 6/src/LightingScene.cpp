@@ -4,12 +4,11 @@
 #include "CGFaxis.h"
 #include "CGFapplication.h"
 
-#define BOARD_HEIGHT 6.0
-#define BOARD_WIDTH 6.4
-
 // number of board divisions
-#define BOARD_A_DIVISIONS 30
-#define BOARD_B_DIVISIONS 100
+const int BOARD_A_DIVISIONS = 30;
+const int BOARD_B_DIVISIONS = 100;
+const double BOARD_HEIGHT = 6.0;
+const double BOARD_WIDTH = 6.4;
 
 void LightingScene::init() {
 	glEnable(GL_NORMALIZE);
