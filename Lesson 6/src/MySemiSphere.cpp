@@ -5,12 +5,23 @@ MySemiSphere::MySemiSphere(int slices, int stacks, bool smooth) {
 	this->slices = slices;
 	this->stacks = stacks;
 	this->smooth = smooth;
+
+	alpha = 360.0 / slices;
+	stackHeight = 1.0 / stacks;
+
+	// calculating points to use on both bases and body
+	pointsVec.clear();
+	for (int i = 0; i < slices; i++) {
+		double x = cos(degToRad(alpha * i));
+		double y = sin(degToRad(alpha * i));
+
+		pointsVec.push_back(Point2D(x, y));
+	}
 }
 
 void MySemiSphere::draw() {
-	double alpha = 360.0 / slices;
 	double x1, y1, x2, y2, x3, y3, x4, y4, outz, inz;
-	double stackHeight, outRadius, inRadius;
+	double outRadius, inRadius;
 
 	// base
 	glPushMatrix();
@@ -18,8 +29,8 @@ void MySemiSphere::draw() {
 	glNormal3d(0, 0, 1);
 	glBegin(GL_POLYGON);
 	for (int i = 0; i < slices; i++) {
-		x1 = cos(degToRad(alpha * i));
-		y1 = sin(degToRad(alpha * i));
+		x1 = pointsVec[i].getX();
+		y1 = pointsVec[i].getY();
 
 		glVertex3d(x1, y1, 0);
 	}
@@ -27,7 +38,6 @@ void MySemiSphere::draw() {
 	glPopMatrix();
 
 	// body
-	stackHeight = 1.0 / stacks;
 	inz = 1;
 	inRadius = 0;
 

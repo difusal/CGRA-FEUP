@@ -16,7 +16,7 @@ Refactored Code:
 - [x] MyTable
 - [x] MyUnitCube
 - [ ] MyWallWithWindow
-- [ ] Plane
+- [x] Plane
 - [x] TPinterface
 - [x] Utilities
 

@@ -16,7 +16,7 @@ public:
 	void setY(double y);
 
 	friend std::ostream& operator<<(std::ostream& out, const Point2D& point) {
-		out << "(" << point.x << ", " << point.y << ")" << std::endl;
+		out << "(" << point.x << ", " << point.y << ")\n";
 		return out;
 	}
 };

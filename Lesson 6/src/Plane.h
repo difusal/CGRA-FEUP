@@ -6,6 +6,7 @@ public:
 	Plane(void);
 	Plane(int);
 	~Plane(void);
+
 	void drawWithRepeatedTexture(int xRepetitions, int yRepetitions);
 	void drawWithStretchedTexture();
 	void drawWithFittedTexture(double offset);
