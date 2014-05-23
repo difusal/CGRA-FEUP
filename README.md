@@ -9,7 +9,7 @@ Refactored Code:
 - [x] Materials
 - [x] MyClock
 - [x] MyClockHand
-- [ ] MyCylinder
+- [x] MyCylinder
 - [x] MyLamp
 - [ ] MyRobot
 - [ ] MySemiSphere
