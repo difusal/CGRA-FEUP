@@ -18,7 +18,7 @@ MyClock::MyClock() {
 	texture->setTexture("res/clock.png");
 	texture->setTextureWrap(GL_REPEAT, GL_REPEAT);
 
-	clockBody = new myCylinder(12, 1, true);
+	clockBody = new MyCylinder(12, 1, 1);
 
 	hoursPtr = new MyClockHand(0.4);
 	hoursPtr->setAngle(90);

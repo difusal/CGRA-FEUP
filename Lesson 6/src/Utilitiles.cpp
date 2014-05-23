@@ -1,6 +1,5 @@
 #include "Utilities.h"
 
-#include <cmath>
 #include "CGFobject.h"
 
 using namespace std;

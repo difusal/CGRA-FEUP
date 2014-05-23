@@ -2,6 +2,7 @@
 #define UTILITIES_H
 
 #include <vector>
+#include <cmath>
 
 enum RobotTexureID {
 	BASIC, METAL, MATRIX

@@ -14,23 +14,24 @@ void LightingScene::init() {
 	glEnable(GL_NORMALIZE);
 	glShadeModel(GL_SMOOTH);
 
+	robotTextureID = BASIC;
+	showTables = 1;
+
 	initLights();
 	materials = new Materials();
 
 	// scene elements
-	table = new myTable();
+	table = new MyTable();
 	wall = new Plane();
 	landscape = new Plane();
 	boardA = new Plane(BOARD_A_DIVISIONS);
 	boardB = new Plane(BOARD_B_DIVISIONS);
-	column = new myCylinder(30, 30, true);
-	lamp = new myLamp();
+	column = new MyCylinder(30, 30, 1);
+	lamp = new MyLamp();
 	clock = new MyClock();
 	robot = new MyRobot(5, false);
 	wallWithWindow = new MyWallWithWindow(15, 8, 4, 2);
 
-	showTables = 1;
-	robotTextureID = BASIC;
 	setUpdatePeriod(100);
 }
 

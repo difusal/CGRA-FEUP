@@ -8,14 +8,14 @@
 #ifndef MYCLOCK_H_
 #define MYCLOCK_H_
 
-#include "myCylinder.h"
+#include "MyCylinder.h"
 #include "MyClockHand.h"
 #include "CGFappearance.h"
 
 class MyClock {
 private:
 	CGFappearance* texture;
-	myCylinder* clockBody;
+	MyCylinder* clockBody;
 	MyClockHand* hoursPtr;
 	MyClockHand* minutesPtr;
 	MyClockHand* secondsPtr;

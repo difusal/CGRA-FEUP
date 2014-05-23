@@ -1,12 +1,12 @@
-#include "myTable.h"
+#include "MyTable.h"
 
-myTable::myTable(void) {
+MyTable::MyTable(void) {
 }
 
-myTable::~myTable(void) {
+MyTable::~MyTable(void) {
 }
 
-void myTable::draw() {
+void MyTable::draw() {
 	// legs
 	glPushMatrix();
 	glTranslated(5 / 2, 3.5 / 2, 3 / 2);

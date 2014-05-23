@@ -4,10 +4,10 @@
 #include "Materials.h"
 #include "Utilities.h"
 
-#include "myTable.h"
+#include "MyTable.h"
 #include "Plane.h"
-#include "myCylinder.h"
-#include "myLamp.h"
+#include "MyCylinder.h"
+#include "MyLamp.h"
 #include "MyClock.h"
 #include "MyRobot.h"
 #include "MyWallWithWindow.h"
@@ -31,9 +31,9 @@ public:
 
 	void toggleShowTables();
 
-	int showTables;
 	int light0IsOn, light1IsOn, light2IsOn, light3IsOn;
 	RobotTexureID robotTextureID;
+	int showTables;
 
 	CGFlight* light0;
 	CGFlight* light1;
@@ -43,14 +43,14 @@ public:
 
 	Materials* materials;
 
-	myTable* table;
+	MyTable* table;
 	Plane* wall;
 	Plane* landscape;
 	MyWallWithWindow* wallWithWindow;
 	Plane* boardA;
 	Plane* boardB;
-	myCylinder* column;
-	myLamp* lamp;
+	MyCylinder* column;
+	MyLamp* lamp;
 	MyClock* clock;
 	MyRobot* robot;
 };

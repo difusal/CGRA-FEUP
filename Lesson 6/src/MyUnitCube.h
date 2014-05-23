@@ -2,10 +2,10 @@
 
 #include "CGFobject.h"
 
-class myUnitCube: public CGFobject {
+class MyUnitCube: public CGFobject {
 public:
-	myUnitCube(void);
-	~myUnitCube(void);
+	MyUnitCube(void);
+	~MyUnitCube(void);
 
 	void draw(bool applyTexturePoints);
 };

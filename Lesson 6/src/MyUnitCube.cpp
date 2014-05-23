@@ -1,13 +1,13 @@
-#include "myUnitCube.h"
+#include "MyUnitCube.h"
 #include "Utilities.h"
 
-myUnitCube::myUnitCube(void) {
+MyUnitCube::MyUnitCube(void) {
 }
 
-myUnitCube::~myUnitCube(void) {
+MyUnitCube::~MyUnitCube(void) {
 }
 
-void myUnitCube::draw(bool applyTexturePoints) {
+void MyUnitCube::draw(bool applyTexturePoints) {
 	// XY parallel faces
 	glPushMatrix();
 	glTranslated(0, 0, 0.5);

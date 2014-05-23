@@ -8,13 +8,13 @@
 #ifndef MYCLOCKHAND_H_
 #define MYCLOCKHAND_H_
 
-#include "myCylinder.h"
+#include "MyCylinder.h"
 #include "CGFappearance.h"
 
 class MyClockHand {
 private:
 	CGFappearance* texture;
-	myCylinder* pointer;
+	MyCylinder* pointer;
 	float size, angle;
 
 public:

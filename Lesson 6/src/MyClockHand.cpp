@@ -14,7 +14,7 @@ MyClockHand::MyClockHand(float size) {
 	float shininess = 60.f;
 	texture = new CGFappearance(amb, dif, spec, shininess);
 
-	pointer = new myCylinder(12, 1, true);
+	pointer = new MyCylinder(12, 1, 1);
 	this->size = size;
 	angle = 0;
 }

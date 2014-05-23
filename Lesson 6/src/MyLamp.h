@@ -1,5 +1,5 @@
 /*
- * myLamp.h
+ * MyLamp.h
  *
  *  Created on: Mar 28, 2014
  *      Author: henrique
@@ -8,21 +8,21 @@
 #ifndef MYLAMP_H_
 #define MYLAMP_H_
 
-#include "mySemiSphere.h"
-#include "myCylinder.h"
+#include "MySemiSphere.h"
+#include "MyCylinder.h"
 #include "CGFappearance.h"
 
-class myLamp {
+class MyLamp {
 	CGFappearance* whitePlastic;
 	CGFappearance* bluePlastic;
 
-	mySemiSphere* base;
-	myCylinder* body;
-	mySemiSphere* top;
+	MySemiSphere* base;
+	MyCylinder* body;
+	MySemiSphere* top;
 
 public:
-	myLamp();
-	virtual ~myLamp();
+	MyLamp();
+	virtual ~MyLamp();
 
 	void draw();
 };

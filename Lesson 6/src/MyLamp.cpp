@@ -1,13 +1,13 @@
 /*
- * myLamp.cpp
+ * MyLamp.cpp
  *
  *  Created on: Mar 28, 2014
  *      Author: henrique
  */
 
-#include "myLamp.h"
+#include "MyLamp.h"
 
-myLamp::myLamp() {
+MyLamp::MyLamp() {
 	// coefficients for white plastic
 	float whitePlasticAmb[3] = { 0.2, 0.2, 0.2 };
 	float whitePlasticDif[3] = { 0.9, 0.9, 0.9 };
@@ -25,12 +25,12 @@ myLamp::myLamp() {
 			bluePlasticSpec, bluePlasticShininess);
 
 	int slices = 30;
-	base = new mySemiSphere(slices, 30, true);
-	body = new myCylinder(slices, 30, true);
-	top = new mySemiSphere(slices, 30, true);
+	base = new MySemiSphere(slices, 30, true);
+	body = new MyCylinder(slices, 30, 1);
+	top = new MySemiSphere(slices, 30, true);
 }
 
-myLamp::~myLamp() {
+MyLamp::~MyLamp() {
 	delete (whitePlastic);
 	delete (bluePlastic);
 
@@ -39,7 +39,7 @@ myLamp::~myLamp() {
 	delete (top);
 }
 
-void myLamp::draw() {
+void MyLamp::draw() {
 	double baseRadius = 0.7;
 	double baseHeight = 0.2;
 	double bodyRadius = 0.15;

@@ -1,13 +1,13 @@
-#include "mySemiSphere.h"
+#include "MySemiSphere.h"
 #include "Utilities.h"
 
-mySemiSphere::mySemiSphere(int slices, int stacks, bool smooth) {
+MySemiSphere::MySemiSphere(int slices, int stacks, bool smooth) {
 	this->slices = slices;
 	this->stacks = stacks;
 	this->smooth = smooth;
 }
 
-void mySemiSphere::draw() {
+void MySemiSphere::draw() {
 	double alpha = 360.0 / slices;
 	double x1, y1, x2, y2, x3, y3, x4, y4, outz, inz;
 	double stackHeight, outRadius, inRadius;

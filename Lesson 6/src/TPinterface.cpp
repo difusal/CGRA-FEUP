@@ -12,6 +12,7 @@ enum ID {
 	PAUSE_BTN,
 	RESTART_BTN,
 	ROBOT_LISTBOX,
+	ROBOT_CHECKBOX,
 	ROBOT_RADIO_GROUP,
 	SHOW_TABLES
 };
@@ -86,7 +87,11 @@ void TPinterface::initRobotPanel() {
 	robotListbox->add_item(METAL, "Metal");
 	robotListbox->add_item(MATRIX, "Matrix");
 
-	addSeparatorToPanel(robotPanel);
+	strcpy(text, "Smooth Shading");
+	addCheckboxToPanel(robotPanel, text,
+			&(((LightingScene*) scene)->column->smooth), ROBOT_CHECKBOX);
+
+	addColumnToPanel(robotPanel);
 
 	GLUI_RadioGroup* robotRadioGroup = addRadioGroupToPanel(robotPanel,
 			&robotRadioGroupSelectedItemID, ROBOT_RADIO_GROUP);
@@ -106,6 +111,10 @@ void TPinterface::initOthersPanel() {
 	strcpy(text, "Show Tables");
 	addCheckboxToPanel(othersPanel, text,
 			&(((LightingScene*) scene)->showTables), SHOW_TABLES);
+
+	strcpy(text, "Smooth Column");
+	addCheckboxToPanel(othersPanel, text,
+			&(((LightingScene*) scene)->column->smooth), SHOW_TABLES);
 }
 void TPinterface::processGUI(GLUI_Control* ctrl) {
 	switch (ctrl->user_id) {
@@ -147,7 +156,7 @@ void TPinterface::processGUI(GLUI_Control* ctrl) {
 }
 
 void TPinterface::processKeyboard(unsigned char key, int x, int y) {
-	// Uncomment below if you would like to process the default keys (e.g. 's' for snapshot, 'Esc' for exiting, ...)
+	// process the default keys (e.g. 's' for snapshot, 'Esc' for exiting, ...)
 	CGFinterface::processKeyboard(key, x, y);
 
 	MyRobot* robot = ((LightingScene*) scene)->robot;

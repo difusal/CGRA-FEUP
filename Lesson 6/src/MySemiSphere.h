@@ -3,12 +3,12 @@
 
 #include "CGFobject.h"
 
-class mySemiSphere: public CGFobject {
+class MySemiSphere: public CGFobject {
 private:
 	int slices, stacks;
 	bool smooth;
 public:
-	mySemiSphere(int slices, int stacks, bool smooth);
+	MySemiSphere(int slices, int stacks, bool smooth);
 
 	void draw();
 };
