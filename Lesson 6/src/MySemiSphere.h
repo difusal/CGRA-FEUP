@@ -14,7 +14,7 @@ private:
 	bool smooth;
 
 	std::vector<Point2D> basePointsVec;
-	std::vector<std::vector<Point3D> > pointsVec;
+	std::vector<std::vector<Point3D> > pointsVec, normalsVec;
 public:
 	MySemiSphere(int slices, int stacks, bool smooth);
 

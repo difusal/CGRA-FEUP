@@ -17,11 +17,74 @@ MySemiSphere::MySemiSphere(int slices, int stacks, bool smooth) {
 
 		basePointsVec.push_back(Point2D(x, y));
 	}
+
+	// calculating semi sphere points matrix
+	double x, y, z;
+	double radius = 0;
+	for (int j = 0; j <= stacks; j++) {
+		z = 1 - (j * stackHeight);
+		radius = sqrt(1 - z * z);
+
+		std::vector<Point3D> temp;
+		for (int i = 0; i < slices; i++) {
+			x = cos(degToRad(alpha * i)) * radius;
+			y = sin(degToRad(alpha * i)) * radius;
+
+			// saving points
+			temp.push_back(Point3D(x, y, z));
+		}
+
+		pointsVec.push_back(temp);
+	}
+
+	// calculating normals
+	for (int i = 0; i < stacks; i++) {
+		std::vector<Point3D> temp;
+
+		for (int j = 0; j < slices; j++) {
+			double x1, y1, x2, y2, x3, y3, x4, y4, outz, inz;
+
+			x1 = pointsVec[i][j].getX();
+			y1 = pointsVec[i][j].getY();
+
+			x2 = pointsVec[i + 1][j].getX();
+			y2 = pointsVec[i + 1][j].getY();
+
+			if (j == slices - 1) {
+				x3 = pointsVec[i + 1][0].getX();
+				y3 = pointsVec[i + 1][0].getY();
+
+				x4 = pointsVec[i][0].getX();
+				y4 = pointsVec[i][0].getY();
+			} else {
+				x3 = pointsVec[i + 1][j + 1].getX();
+				y3 = pointsVec[i + 1][j + 1].getY();
+
+				x4 = pointsVec[i][j + 1].getX();
+				y4 = pointsVec[i][j + 1].getY();
+			}
+
+			outz = pointsVec[i][j].getZ();
+			inz = pointsVec[i + 1][j].getZ();
+
+			// START calculating polygon normal
+			double nx, ny, nz;
+			nx = x1 + x2 + x3 + x4;
+			ny = y1 + y2 + y3 + y4;
+			nz = outz + inz + inz + outz;
+
+			double normal = sqrt(nx * nx + ny * ny + nz * nz);
+			// STOP calculating polygon normal
+
+			temp.push_back(Point3D(nx / normal, ny / normal, nz / normal));
+		}
+
+		normalsVec.push_back(temp);
+	}
 }
 
 void MySemiSphere::draw() {
 	double x1, y1, x2, y2, x3, y3, x4, y4, outz, inz;
-	double outRadius, inRadius;
 
 	// base
 	glPushMatrix();
@@ -38,49 +101,38 @@ void MySemiSphere::draw() {
 	glPopMatrix();
 
 	// body
-	inz = 1;
-	inRadius = 0;
-	for (int j = 0; j < stacks; j++) {
-		// updating outer and inner z
-		outz = inz;
-		inz = 1 - ((j + 1) * stackHeight);
+	for (int i = 0; i < stacks; i++) {
+		for (int j = 0; j < slices; j++) {
+			x1 = pointsVec[i][j].getX();
+			y1 = pointsVec[i][j].getY();
 
-		// updating outer and inner radius
-		outRadius = inRadius;
-		inRadius = sqrt(1 - pow((1 - (j + 1) * stackHeight), 2));
+			x2 = pointsVec[i + 1][j].getX();
+			y2 = pointsVec[i + 1][j].getY();
 
-		x4 = cos(degToRad(0)) * outRadius;
-		y4 = sin(degToRad(0)) * outRadius;
+			if (j == slices - 1) {
+				x3 = pointsVec[i + 1][0].getX();
+				y3 = pointsVec[i + 1][0].getY();
 
-		x3 = cos(degToRad(0)) * inRadius;
-		y3 = sin(degToRad(0)) * inRadius;
+				x4 = pointsVec[i][0].getX();
+				y4 = pointsVec[i][0].getY();
+			} else {
+				x3 = pointsVec[i + 1][j + 1].getX();
+				y3 = pointsVec[i + 1][j + 1].getY();
 
-		for (int i = 0; i < slices; i++) {
-			// reusing previous values
-			x1 = x4;
-			y1 = y4;
-			x2 = x3;
-			y2 = y3;
+				x4 = pointsVec[i][j + 1].getX();
+				y4 = pointsVec[i][j + 1].getY();
+			}
 
-			x4 = cos(degToRad(alpha * (i + 1))) * outRadius;
-			y4 = sin(degToRad(alpha * (i + 1))) * outRadius;
-
-			x3 = cos(degToRad(alpha * (i + 1))) * inRadius;
-			y3 = sin(degToRad(alpha * (i + 1))) * inRadius;
+			outz = pointsVec[i][j].getZ();
+			inz = pointsVec[i + 1][j].getZ();
 
 			// flat shading
 			if (!smooth) {
-				double nx, ny, nz;
-				nx = x1 + x2 + x3 + x4;
-				ny = y1 + y2 + y3 + y4;
-				nz = outz + inz + inz + outz;
-
-				double normal = sqrt(nx * nx + ny * ny + nz * nz);
-
-				glNormal3d(nx / normal, ny / normal, nz / normal);
+				Point3D n = normalsVec[i][j];
+				glNormal3d(n.getX(), n.getY(), n.getZ());
 			}
 
-			// drawing polygon
+			// START drawing polyhedron
 			glBegin(GL_QUADS);
 
 			if (smooth)
@@ -100,6 +152,7 @@ void MySemiSphere::draw() {
 			glVertex3d(x4, y4, outz);
 
 			glEnd();
+			// STOP drawing polyhedron
 		}
 	}
 }

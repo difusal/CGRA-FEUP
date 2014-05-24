@@ -12,7 +12,7 @@ Refactored Code:
 - [x] MyCylinder
 - [x] MyLamp
 - [ ] MyRobot
-- [ ] MySemiSphere
+- [x] MySemiSphere
 - [x] MyTable
 - [x] MyUnitCube
 - [ ] MyWallWithWindow

@@ -8,7 +8,7 @@ private:
 
 public:
 	Point3D();
-	Point3D(double x, double y);
+	Point3D(double x, double y, double z);
 	Point3D(const Point3D& point);
 	virtual ~Point3D();
 
@@ -20,7 +20,7 @@ public:
 	void setZ(double z);
 
 	friend std::ostream& operator<<(std::ostream& out, const Point3D& point) {
-		out << "(" << point.x << ", " << point.y << ", " << point.z << ")\n";
+		out << "(" << point.x << ", " << point.y << ", " << point.z << ")";
 		return out;
 	}
 };

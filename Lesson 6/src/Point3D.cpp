@@ -1,17 +1,10 @@
-/*
- * Point3D.cpp
- *
- *  Created on: May 23, 2014
- *      Author: henrique
- */
-
 #include "Point3D.h"
 
 Point3D::Point3D() {
 	x = y = z = 0;
 }
 
-Point3D::Point3D(double x, double y) {
+Point3D::Point3D(double x, double y, double z) {
 	this->x = x;
 	this->y = y;
 	this->z = z;
