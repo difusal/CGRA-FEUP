@@ -1,5 +1,7 @@
 #include "Materials.h"
 
+#include "TexturePaths.h"
+
 Materials::Materials() {
 	// coefficients for material A
 	float ambA[3] = { 0.2, 0.2, 0.2 };
@@ -23,7 +25,7 @@ Materials::Materials() {
 	materialA = new CGFappearance(ambA, difA, specA, shininessA);
 	materialB = new CGFappearance(ambB, difB, specB, shininessB);
 	materialC = new CGFappearance(ambC, difC, specC, shininessC);
-	materialC->setTexture("res/wall.png");
+	materialC->setTexture(textureWall);
 	materialC->setTextureWrap(GL_REPEAT, GL_REPEAT);
 
 	// coefficients for table material
@@ -35,7 +37,7 @@ Materials::Materials() {
 	// TABLE
 	tableAppearance = new CGFappearance(ambTable, difTable, specTable,
 			shininessTable);
-	tableAppearance->setTexture("res/table.png");
+	tableAppearance->setTexture(textureTable);
 	tableAppearance->setTextureWrap(GL_REPEAT, GL_REPEAT);
 
 	// coefficients for slides material
@@ -47,7 +49,7 @@ Materials::Materials() {
 	// SLIDES
 	slidesAppearance = new CGFappearance(ambSlides, difSlides, specSlides,
 			shininessSlides);
-	slidesAppearance->setTexture("res/slides.png");
+	slidesAppearance->setTexture(textureSlides);
 	slidesAppearance->setTextureWrap(GL_CLAMP, GL_CLAMP);
 
 	// coefficients for board material
@@ -59,7 +61,7 @@ Materials::Materials() {
 	// BOARD
 	boardAppearance = new CGFappearance(ambBoard, difBoard, specBoard,
 			shininessBoard);
-	boardAppearance->setTexture("res/board.png");
+	boardAppearance->setTexture(textureBoard);
 	boardAppearance->setTextureWrap(GL_CLAMP, GL_CLAMP);
 
 	// coefficients for window material
@@ -71,7 +73,7 @@ Materials::Materials() {
 	// WINDOW
 	windowAppearance = new CGFappearance(ambWindow, difWindow, specWindow,
 			shininessWindow);
-	windowAppearance->setTexture("res/window.png");
+	windowAppearance->setTexture(textureWindow);
 	windowAppearance->setTextureWrap(GL_CLAMP, GL_CLAMP);
 
 	// coefficients for floor material
@@ -83,19 +85,19 @@ Materials::Materials() {
 	// FLOOR
 	floorAppearance = new CGFappearance(ambFloor, difFloor, specFloor,
 			shininessFloor);
-	floorAppearance->setTexture("res/floor.png");
+	floorAppearance->setTexture(textureFloor);
 	floorAppearance->setTextureWrap(GL_REPEAT, GL_REPEAT);
 
 	// ROBOT
 	robotAppearance = new CGFappearance(ambFloor, difFloor, specFloor,
 			shininessFloor);
-	robotAppearance->setTexture("res/basicRobot.jpg");
+	robotAppearance->setTexture(textureBasicRobot);
 	robotAppearance->setTextureWrap(GL_REPEAT, GL_REPEAT);
 
 	// LANDSCAPE
 	landscapeAppearance = new CGFappearance(ambFloor, difFloor, specFloor,
 			shininessFloor);
-	landscapeAppearance->setTexture("res/bliss.jpg");
+	landscapeAppearance->setTexture(textureBliss);
 	landscapeAppearance->setTextureWrap(GL_REPEAT, GL_REPEAT);
 }
 

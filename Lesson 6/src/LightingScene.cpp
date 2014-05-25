@@ -3,6 +3,7 @@
 #include <math.h>
 #include "CGFaxis.h"
 #include "CGFapplication.h"
+#include "TexturePaths.h"
 
 // number of board divisions
 const int BOARD_A_DIVISIONS = 30;
@@ -236,13 +237,13 @@ void LightingScene::drawColumn() {
 void LightingScene::drawRobot() {
 	switch (robotTextureID) {
 	case BASIC:
-		materials->getMaterial(ROBOT)->setTexture("res/basicRobot.jpg");
+		materials->getMaterial(ROBOT)->setTexture(textureBasicRobot);
 		break;
 	case METAL:
-		materials->getMaterial(ROBOT)->setTexture("res/metalRobot.jpg");
+		materials->getMaterial(ROBOT)->setTexture(textureMetalRobot);
 		break;
 	case MATRIX:
-		materials->getMaterial(ROBOT)->setTexture("res/matrixRobot.jpg");
+		materials->getMaterial(ROBOT)->setTexture(textureMatrixRobot);
 		break;
 	}
 

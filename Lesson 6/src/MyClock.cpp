@@ -1,11 +1,6 @@
-/*
- * MyClock.cpp
- *
- *  Created on: Apr 9, 2014
- *      Author: henrique
- */
-
 #include "MyClock.h"
+
+#include "TexturePaths.h"
 
 MyClock::MyClock() {
 	// Coefficients for clock material
@@ -15,7 +10,7 @@ MyClock::MyClock() {
 	float shininess = 60.f;
 
 	texture = new CGFappearance(amb, dif, spec, shininess);
-	texture->setTexture("res/clock.png");
+	texture->setTexture(textureClock);
 	texture->setTextureWrap(GL_REPEAT, GL_REPEAT);
 
 	clockBody = new MyCylinder(12, 1, 1);
