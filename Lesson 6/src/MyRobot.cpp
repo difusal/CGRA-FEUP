@@ -78,7 +78,7 @@ void MyRobot::calculateFaceVertexes() {
 }
 
 void MyRobot::calculateFlatFaceNormals() {
-	// clear face points matrix container
+	// clear flat normals container
 	flatFaceNormals.clear();
 
 	// for each stack
@@ -118,7 +118,7 @@ void MyRobot::calculateFlatFaceNormals() {
 }
 
 void MyRobot::calculateSmoothFaceNormals() {
-	// clear face points matrix container
+	// clear smooth normals container
 	smoothFaceNormals.clear();
 
 	// prepare face points matrix container
