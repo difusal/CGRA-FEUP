@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <cmath>
+#include "Point3D.h"
 
 enum RobotTexureID {
 	BASIC, METAL, MATRIX
@@ -11,7 +12,6 @@ enum RobotTexureID {
 double degToRad(double deg);
 void drawMyRect(double x1, double y1, double x2, double y2,
 		bool applyTexturePoints);
-std::vector<double> calculateSurfaceNormal(
-		std::vector<std::vector<double> > polygonVertexes);
+Point3D calculateSurfaceNormal(std::vector<Point3D> polygonVertexes);
 
 #endif

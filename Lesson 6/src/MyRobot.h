@@ -12,11 +12,17 @@ private:
 	double alpha, stackHeight;
 	bool smooth;
 
-	std::vector<Point2D> topPointsVec;
-	std::vector<std::vector<Point3D> > pointsVec, normalsVec;
+	std::vector<Point2D> topVertexes, topTexturePoints;
+	std::vector<std::vector<Point3D> > faceVertexes, faceNormals;
+	std::vector<std::vector<std::vector<Point2D> > > faceTexturePoints;
 public:
 	MyRobot(int stacks, bool smooth);
 	virtual ~MyRobot();
+
+	void calculateTopVertexesAndTexturePoints();
+	void calculateFaceVertexes();
+	void calculateFaceNormals();
+	void calculateFaceTexturePoints();
 
 	void draw();
 	void drawTop();

@@ -11,7 +11,7 @@ Refactored Code:
 - [x] MyClockHand
 - [x] MyCylinder
 - [x] MyLamp
-- [ ] MyRobot
+- [x] MyRobot
 - [x] MySemiSphere
 - [x] MyTable
 - [x] MyUnitCube

@@ -17,19 +17,165 @@ MyRobot::MyRobot(int stacks, bool smooth) {
 	alpha = 360.0 / slices;
 	stackHeight = 1.0 / stacks;
 
-	// calculating points to draw top
-	topPointsVec.clear();
-	for (int i = 0; i < slices; i++) {
-		double x = 0.25 * cos(degToRad(-45 + alpha * i));
-		double y = 0.25 * sin(degToRad(-45 + alpha * i));
-
-		topPointsVec.push_back(Point2D(x, y));
-	}
-
-	// calculating robot face points matrix
+	calculateTopVertexesAndTexturePoints();
+	calculateFaceVertexes();
+	calculateFaceNormals();
+	calculateFaceTexturePoints();
 }
 
 MyRobot::~MyRobot() {
+}
+
+void MyRobot::calculateTopVertexesAndTexturePoints() {
+	// clear vectors
+	topVertexes.clear();
+	topTexturePoints.clear();
+
+	for (int i = 0; i < slices; i++) {
+		// calculate top vertexes
+		double x = 0.25 * cos(degToRad(-45 + i * alpha));
+		double y = 0.25 * sin(degToRad(-45 + i * alpha));
+		topVertexes.push_back(Point2D(x, y));
+
+		// calculate top texture points
+		double texX = 0.5 + x * 0.5;
+		double texY = 0.5 + y * 0.5;
+		topTexturePoints.push_back(Point2D(texX, texY));
+	}
+
+	// correcting texture points order
+	for (int i = 0; i < (slices / 4); i++) {
+		topTexturePoints.insert(topTexturePoints.begin(),
+				topTexturePoints.back());
+		topTexturePoints.pop_back();
+	}
+}
+
+void MyRobot::calculateFaceVertexes() {
+	// clear face points matrix container
+	faceVertexes.clear();
+
+	// prepare face points matrix container
+	vector<Point3D> temp;
+	for (int i = 0; i <= stacks; i++)
+		faceVertexes.push_back(temp);
+
+	// calculate robot face points matrix
+	for (int i = 0; i <= slices / 4; i++) {
+		Point3D start;
+		start.setX(topVertexes[i].getX());
+		start.setY(topVertexes[i].getY());
+		start.setZ(1);
+
+		Point3D end;
+		end.setX(0.5);
+		end.setY(-0.5 + i / (slices / 4.0));
+		end.setZ(0);
+
+		Point3D interpolVec = end - start;
+		interpolVec /= stacks;
+
+		for (int j = 0; j <= stacks; j++)
+			faceVertexes[j].push_back(start + j * interpolVec);
+	}
+}
+
+void MyRobot::calculateFaceNormals() {
+	// clear face points matrix container
+	faceNormals.clear();
+
+	// for each stack
+	for (int i = 0; i < faceVertexes.size() - 1; i++) {
+		vector<Point3D> stackNormals;
+
+		// for each slice
+		for (int j = 0; j < faceVertexes[i].size() - 1; j++) {
+			// get polygon points
+			double x1 = faceVertexes[i][j].getX();
+			double y1 = faceVertexes[i][j].getY();
+
+			double x2 = faceVertexes[i + 1][j].getX();
+			double y2 = faceVertexes[i + 1][j].getY();
+
+			double x3 = faceVertexes[i + 1][j + 1].getX();
+			double y3 = faceVertexes[i + 1][j + 1].getY();
+
+			double x4 = faceVertexes[i][j + 1].getX();
+			double y4 = faceVertexes[i][j + 1].getY();
+
+			double z1 = faceVertexes[i][j].getZ();
+			double z2 = faceVertexes[i + 1][j].getZ();
+
+			vector<Point3D> vertexes;
+			vertexes.push_back(Point3D(x1, y1, z1));
+			vertexes.push_back(Point3D(x2, y2, z2));
+			vertexes.push_back(Point3D(x3, y3, z2));
+			vertexes.push_back(Point3D(x4, y4, z1));
+
+			// calculate and save normal
+			stackNormals.push_back(calculateSurfaceNormal(vertexes));
+		}
+
+		faceNormals.push_back(stackNormals);
+	}
+}
+
+void MyRobot::calculateFaceTexturePoints() {
+	// clear face texture points matrix container
+	faceTexturePoints.clear();
+
+	// prepare face texture points matrix container
+	vector<Point2D> temp1;
+	vector<vector<Point2D> > temp2;
+	for (int i = 0; i <= stacks; i++)
+		temp2.push_back(temp1);
+	for (int i = 0; i < 4; i++)
+		faceTexturePoints.push_back(temp2);
+
+	// calculate robot face texture points for each face
+	for (int k = 0; k < 4; k++) {
+		// getting correct face top texture points
+		if (k > 0) {
+			for (int i = 0; i < (slices / 4); i++) {
+				topTexturePoints.push_back(topTexturePoints.front());
+				topTexturePoints.erase(topTexturePoints.begin());
+			}
+		}
+
+		// for each slice
+		for (int i = 0; i <= slices / 4; i++) {
+			Point2D start;
+			start.setX(topTexturePoints[i].getX());
+			start.setY(topTexturePoints[i].getY());
+
+			Point2D end;
+			switch (k) {
+			case 0:
+				end.setX(i / (slices / 4.0));
+				end.setY(0);
+				break;
+			case 1:
+				end.setX(1);
+				end.setY(i / (slices / 4.0));
+				break;
+			case 2:
+				end.setX((slices / 4.0 - i) / (slices / 4.0));
+				end.setY(1);
+				break;
+			case 3:
+				end.setX(0);
+				end.setY((slices / 4.0 - i) / (slices / 4.0));
+				break;
+			}
+
+			Point2D interpolVec = end - start;
+			interpolVec /= stacks;
+
+			// for each stack
+			for (int j = 0; j <= stacks; j++)
+				faceTexturePoints[k][j].push_back(start + j * interpolVec);
+		}
+	}
 }
 
 void MyRobot::draw() {
@@ -48,28 +194,32 @@ void MyRobot::draw() {
 	// body
 	for (int i = 0; i < 4; i++) {
 		glPushMatrix();
+
 		glRotated(i * 90.0, 0, 0, 1);
 		drawFace(i);
+
 		glPopMatrix();
 	}
 
 	glPopMatrix();
 
+	// resetting polygon mode
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 void MyRobot::drawTop() {
-	double x1, y1;
-
 	glNormal3d(0, 0, 1);
 
 	glBegin(GL_POLYGON);
 	for (int i = 0; i < slices; i++) {
-		x1 = topPointsVec[i].getX();
-		y1 = topPointsVec[i].getY();
+		double x = topVertexes[i].getX();
+		double y = topVertexes[i].getY();
 
-		glTexCoord2d(0.5 + x1 * 0.5, 0.5 + y1 * 0.5);
-		glVertex3d(x1, y1, 1);
+		double texX = topTexturePoints[i].getX();
+		double texY = topTexturePoints[i].getY();
+
+		glTexCoord2d(texX, texY);
+		glVertex3d(x, y, 1);
 	}
 	glEnd();
 }
@@ -92,158 +242,61 @@ void MyRobot::drawBase() {
 }
 
 void MyRobot::drawFace(int face) {
-	double alpha = 360.0 / slices;
-	double x1, y1, x2, y2, x3, y3, x4, y4, tx4, ty4;
-	double dx12, dx43, dy12, dy43, z1, z2;
-	double stackHeight;
-	double texx1, texy1, texx2, texy2, texx3, texy3, texx4, texy4;
-	double ttexx4, ttexy4, dtexx12, dtexy12, dtexx43, dtexy43;
-
-	x3 = 0.5;
-	y3 = -0.5;
-
-	tx4 = 0.25 * cos(degToRad(-45));
-	ty4 = 0.25 * sin(degToRad(-45));
-
-	ttexx4 = 0.5 + 0.25 * cos(degToRad(-135 + face * 90)) * 0.5;
-	ttexy4 = 0.5 + 0.25 * sin(degToRad(-135 + face * 90)) * 0.5;
-
-	stackHeight = 1.0 / stacks;
-
-	for (int i = 0; i < slices / 4; i++) {
-		// calculating major points
-		x1 = tx4;
-		y1 = ty4;
-		x2 = x3;
-		y2 = y3;
-		x3 = 0.5;
-		y3 = -0.5 + (i + 1) / (slices / 4.0);
-		tx4 = x4 = 0.25 * cos(degToRad(-45 + alpha * (i + 1)));
-		ty4 = y4 = 0.25 * sin(degToRad(-45 + alpha * (i + 1)));
-		z2 = 1;
-
-		// calculating major texture points
-		texx1 = ttexx4;
-		texy1 = ttexy4;
-
-		switch (face) {
-		case 0:
-			texx2 = i * 1.0 / (slices / 4);
-			texy2 = 0;
-			texx3 = (i + 1) * 1.0 / (slices / 4);
-			texy3 = 0;
-			break;
-		case 1:
-			texx2 = 1;
-			texy2 = i * 1.0 / (slices / 4);
-			texx3 = 1;
-			texy3 = (i + 1) * 1.0 / (slices / 4);
-			break;
-		case 2:
-			texx2 = (slices / 4 - i) * 1.0 / (slices / 4);
-			texy2 = 1;
-			texx3 = (slices / 4 - i - 1) * 1.0 / (slices / 4);
-			texy3 = 1;
-			break;
-		case 3:
-			texx2 = 0;
-			texy2 = (slices / 4 - i) * 1.0 / (slices / 4);
-			texx3 = 0;
-			texy3 = (slices / 4 - i - 1) * 1.0 / (slices / 4);
-			break;
-		}
-
-		ttexx4 = texx4 = 0.5
-				+ 0.25 * cos(degToRad(-135 + face * 90 + alpha * (i + 1)))
-						* 0.5;
-		ttexy4 = texy4 = 0.5
-				+ 0.25 * sin(degToRad(-135 + face * 90 + alpha * (i + 1)))
-						* 0.5;
-
-		// calculating interpolation data with major points
-		dx12 = (x2 - x1) / stacks;
-		dy12 = (y2 - y1) / stacks;
-		dx43 = (x3 - x4) / stacks;
-		dy43 = (y3 - y4) / stacks;
-
-		dtexx12 = (texx2 - texx1) / stacks;
-		dtexy12 = (texy2 - texy1) / stacks;
-		dtexx43 = (texx3 - texx4) / stacks;
-		dtexy43 = (texy3 - texy4) / stacks;
-
-		for (int j = 0; j < stacks; j++) {
-			// calculating specific points
-			x2 = x1 + dx12;
-			y2 = y1 + dy12;
-			x3 = x4 + dx43;
-			y3 = y4 + dy43;
-			z1 = z2;
-			z2 -= stackHeight;
-
-			texx2 = texx1 + dtexx12;
-			texy2 = texy1 + dtexy12;
-			texx3 = texx4 + dtexx43;
-			texy3 = texy4 + dtexy43;
-
+	// for each stack
+	for (int i = 0; i < faceVertexes.size() - 1; i++) {
+		// for each slice
+		for (int j = 0; j < faceVertexes[i].size() - 1; j++) {
 			// flat shading
 			if (!smooth) {
-				vector<vector<double> > vertexes;
-				vector<double> temp;
-
-				temp.push_back(x1);
-				temp.push_back(y1);
-				temp.push_back(z1);
-				vertexes.push_back(temp);
-				temp.clear();
-
-				temp.push_back(x2);
-				temp.push_back(y2);
-				temp.push_back(z2);
-				vertexes.push_back(temp);
-				temp.clear();
-
-				temp.push_back(x3);
-				temp.push_back(y3);
-				temp.push_back(z2);
-				vertexes.push_back(temp);
-				temp.clear();
-
-				temp.push_back(x4);
-				temp.push_back(y4);
-				temp.push_back(z1);
-				vertexes.push_back(temp);
-				temp.clear();
-
-				vector<double> normal = calculateSurfaceNormal(vertexes);
-				glNormal3d(normal[0], normal[1], normal[2]);
+				Point3D n = faceNormals[i][j];
+				glNormal3d(n.getX(), n.getY(), n.getZ());
 			}
 
+			// vertexes
+			double x1 = faceVertexes[i][j].getX();
+			double y1 = faceVertexes[i][j].getY();
+
+			double x2 = faceVertexes[i + 1][j].getX();
+			double y2 = faceVertexes[i + 1][j].getY();
+
+			double x3 = faceVertexes[i + 1][j + 1].getX();
+			double y3 = faceVertexes[i + 1][j + 1].getY();
+
+			double x4 = faceVertexes[i][j + 1].getX();
+			double y4 = faceVertexes[i][j + 1].getY();
+
+			double z1 = faceVertexes[i][j].getZ();
+			double z2 = faceVertexes[i + 1][j].getZ();
+
+			// texture points
+			double texX1 = faceTexturePoints[face][i][j].getX();
+			double texY1 = faceTexturePoints[face][i][j].getY();
+
+			double texX2 = faceTexturePoints[face][i + 1][j].getX();
+			double texY2 = faceTexturePoints[face][i + 1][j].getY();
+
+			double texX3 = faceTexturePoints[face][i + 1][j + 1].getX();
+			double texY3 = faceTexturePoints[face][i + 1][j + 1].getY();
+
+			double texX4 = faceTexturePoints[face][i][j + 1].getX();
+			double texY4 = faceTexturePoints[face][i][j + 1].getY();
+
+			// draw polygon
 			glBegin(GL_QUADS);
 
-			glTexCoord2d(texx1, texy1);
+			glTexCoord2d(texX1, texY1);
 			glVertex3d(x1, y1, z1);
 
-			glTexCoord2d(texx2, texy2);
+			glTexCoord2d(texX2, texY2);
 			glVertex3d(x2, y2, z2);
 
-			glTexCoord2d(texx3, texy3);
+			glTexCoord2d(texX3, texY3);
 			glVertex3d(x3, y3, z2);
 
-			glTexCoord2d(texx4, texy4);
+			glTexCoord2d(texX4, texY4);
 			glVertex3d(x4, y4, z1);
 
 			glEnd();
-
-			// reusing data for next iteration
-			x1 = x2;
-			y1 = y2;
-			x4 = x3;
-			y4 = y3;
-
-			texx1 = texx2;
-			texy1 = texy2;
-			texx4 = texx3;
-			texy4 = texy3;
 		}
 	}
 }

@@ -15,7 +15,7 @@ using std::cout;
 using std::exception;
 
 int main(int argc, char* argv[]) {
-	/* initialize random seed: */
+	// initialize random seed
 	srand(time(NULL));
 
 	CGFapplication app = CGFapplication();

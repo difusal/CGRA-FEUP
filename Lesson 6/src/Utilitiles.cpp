@@ -39,32 +39,28 @@ void drawMyRect(double x1, double y1, double x2, double y2,
 		glEnable(GL_TEXTURE_2D);
 }
 
-vector<double> normalizeVector(vector<double> normal) {
-	double length = sqrt(
-			pow(normal[0], 2) + pow(normal[1], 2) + pow(normal[2], 2));
+Point3D normalizeVector(Point3D normal) {
+	double powX = pow(normal.getX(), 2);
+	double powY = pow(normal.getY(), 2);
+	double powZ = pow(normal.getZ(), 2);
 
-	normal[0] /= length;
-	normal[1] /= length;
-	normal[2] /= length;
+	double length = sqrt(powX + powY + powZ);
 
-	return normal;
+	return normal /= length;
 }
 
 // Newell's method
-vector<double> calculateSurfaceNormal(vector<vector<double> > polygonVertexes) {
-	vector<double> normal(3);
-	int x = 0, y = 1, z = 2;
+Point3D calculateSurfaceNormal(std::vector<Point3D> polygonVertexes) {
+	double x = 0, y = 0, z = 0;
 
-	vector<double> current;
-	vector<double> next;
 	for (int i = 0; i < polygonVertexes.size(); i++) {
-		current = polygonVertexes[i];
-		next = polygonVertexes[(i + 1) % polygonVertexes.size()];
+		Point3D current = polygonVertexes[i];
+		Point3D next = polygonVertexes[(i + 1) % polygonVertexes.size()];
 
-		normal[x] += (current[y] - next[y]) * (current[z] + next[z]);
-		normal[y] += (current[z] - next[z]) * (current[x] + next[x]);
-		normal[z] += (current[x] - next[x]) * (current[y] + next[y]);
+		x += (current.getY() - next.getY()) * (current.getZ() + next.getZ());
+		y += (current.getZ() - next.getZ()) * (current.getX() + next.getX());
+		z += (current.getX() - next.getX()) * (current.getY() + next.getY());
 	}
 
-	return normalizeVector(normal);
+	return normalizeVector(Point3D(x, y, z));
 }
