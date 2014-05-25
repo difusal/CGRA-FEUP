@@ -60,6 +60,16 @@ public:
 		return Point3D(x, y, z);
 	}
 
+	friend Point3D operator/(Point3D vec, double n) {
+		double x, y, z;
+
+		x = vec.x / n;
+		y = vec.y / n;
+		z = vec.z / n;
+
+		return Point3D(x, y, z);
+	}
+
 	Point3D& operator/=(double n) {
 		this->x /= n;
 		this->y /= n;

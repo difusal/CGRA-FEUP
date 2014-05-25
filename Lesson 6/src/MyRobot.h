@@ -10,18 +10,20 @@ class MyRobot: public CGFobject {
 private:
 	int slices, stacks;
 	double alpha, stackHeight;
-	bool smooth;
 
 	std::vector<Point2D> topVertexes, topTexturePoints;
-	std::vector<std::vector<Point3D> > faceVertexes, faceNormals;
+	std::vector<std::vector<Point3D> > faceVertexes;
+	std::vector<std::vector<Point3D> > flatFaceNormals, smoothFaceNormals;
 	std::vector<std::vector<std::vector<Point2D> > > faceTexturePoints;
+
 public:
-	MyRobot(int stacks, bool smooth);
+	MyRobot(int stacks, int smooth);
 	virtual ~MyRobot();
 
 	void calculateTopVertexesAndTexturePoints();
 	void calculateFaceVertexes();
-	void calculateFaceNormals();
+	void calculateFlatFaceNormals();
+	void calculateSmoothFaceNormals();
 	void calculateFaceTexturePoints();
 
 	void draw();
@@ -29,6 +31,7 @@ public:
 	void drawBase();
 	void drawFace(int face);
 
+	int smooth;
 	double rotation;
 	double x, z;
 	int wireframe;

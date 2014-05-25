@@ -29,7 +29,7 @@ void LightingScene::init() {
 	column = new MyCylinder(30, 30, 1);
 	lamp = new MyLamp();
 	clock = new MyClock();
-	robot = new MyRobot(5, false);
+	robot = new MyRobot(5, 0);
 	wallWithWindow = new MyWallWithWindow(15, 8, 4, 2);
 
 	setUpdatePeriod(100);

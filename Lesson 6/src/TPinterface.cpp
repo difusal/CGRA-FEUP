@@ -89,7 +89,7 @@ void TPinterface::initRobotPanel() {
 
 	strcpy(text, "Smooth Shading");
 	addCheckboxToPanel(robotPanel, text,
-			&(((LightingScene*) scene)->column->smooth), ROBOT_CHECKBOX);
+			&(((LightingScene*) scene)->robot->smooth), ROBOT_CHECKBOX);
 
 	addColumnToPanel(robotPanel);
 

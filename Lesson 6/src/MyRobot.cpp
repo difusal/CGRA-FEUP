@@ -5,7 +5,7 @@
 
 using namespace std;
 
-MyRobot::MyRobot(int stacks, bool smooth) {
+MyRobot::MyRobot(int stacks, int smooth) {
 	this->slices = 12;
 	this->stacks = stacks;
 	this->smooth = smooth;
@@ -19,7 +19,8 @@ MyRobot::MyRobot(int stacks, bool smooth) {
 
 	calculateTopVertexesAndTexturePoints();
 	calculateFaceVertexes();
-	calculateFaceNormals();
+	calculateFlatFaceNormals();
+	calculateSmoothFaceNormals();
 	calculateFaceTexturePoints();
 }
 
@@ -62,27 +63,23 @@ void MyRobot::calculateFaceVertexes() {
 
 	// calculate robot face points matrix
 	for (int i = 0; i <= slices / 4; i++) {
-		Point3D start;
-		start.setX(topVertexes[i].getX());
-		start.setY(topVertexes[i].getY());
-		start.setZ(1);
+		double x = topVertexes[i].getX();
+		double y = topVertexes[i].getY();
+		Point3D start(x, y, 1);
 
-		Point3D end;
-		end.setX(0.5);
-		end.setY(-0.5 + i / (slices / 4.0));
-		end.setZ(0);
+		y = -0.5 + i / (slices / 4.0);
+		Point3D end(0.5, y, 0);
 
-		Point3D interpolVec = end - start;
-		interpolVec /= stacks;
+		Point3D interpolVec = (end - start) / stacks;
 
 		for (int j = 0; j <= stacks; j++)
 			faceVertexes[j].push_back(start + j * interpolVec);
 	}
 }
 
-void MyRobot::calculateFaceNormals() {
+void MyRobot::calculateFlatFaceNormals() {
 	// clear face points matrix container
-	faceNormals.clear();
+	flatFaceNormals.clear();
 
 	// for each stack
 	for (int i = 0; i < faceVertexes.size() - 1; i++) {
@@ -116,7 +113,33 @@ void MyRobot::calculateFaceNormals() {
 			stackNormals.push_back(calculateSurfaceNormal(vertexes));
 		}
 
-		faceNormals.push_back(stackNormals);
+		flatFaceNormals.push_back(stackNormals);
+	}
+}
+
+void MyRobot::calculateSmoothFaceNormals() {
+	// clear face points matrix container
+	smoothFaceNormals.clear();
+
+	// prepare face points matrix container
+	vector<Point3D> temp;
+	for (int i = 0; i <= stacks; i++)
+		smoothFaceNormals.push_back(temp);
+
+	// for each slice
+	for (int i = 0; i <= slices / 4; i++) {
+		double x = faceVertexes[0][i].getX();
+		double y = faceVertexes[0][i].getY();
+
+		Point3D start(normalizeVector(Point3D(x, y, 0)));
+		Point3D end(0, 1, 0);
+		Point3D interpolVec = (end - start) / stacks;
+
+		// for each stack
+		for (int j = 0; j <= stacks; j++) {
+			Point3D normal = normalizeVector(start + j * interpolVec);
+			smoothFaceNormals[j].push_back(normal);
+		}
 	}
 }
 
@@ -248,7 +271,7 @@ void MyRobot::drawFace(int face) {
 		for (int j = 0; j < faceVertexes[i].size() - 1; j++) {
 			// flat shading
 			if (!smooth) {
-				Point3D n = faceNormals[i][j];
+				Point3D n = flatFaceNormals[i][j];
 				glNormal3d(n.getX(), n.getY(), n.getZ());
 			}
 
@@ -284,15 +307,31 @@ void MyRobot::drawFace(int face) {
 			// draw polygon
 			glBegin(GL_QUADS);
 
+			if (smooth) {
+				Point3D n = smoothFaceNormals[i][j];
+				glNormal3d(n.getX(), n.getY(), n.getZ());
+			}
 			glTexCoord2d(texX1, texY1);
 			glVertex3d(x1, y1, z1);
 
+			if (smooth) {
+				Point3D n = smoothFaceNormals[i + 1][j];
+				glNormal3d(n.getX(), n.getY(), n.getZ());
+			}
 			glTexCoord2d(texX2, texY2);
 			glVertex3d(x2, y2, z2);
 
+			if (smooth) {
+				Point3D n = smoothFaceNormals[i + 1][j + 1];
+				glNormal3d(n.getX(), n.getY(), n.getZ());
+			}
 			glTexCoord2d(texX3, texY3);
 			glVertex3d(x3, y3, z2);
 
+			if (smooth) {
+				Point3D n = smoothFaceNormals[i][j + 1];
+				glNormal3d(n.getX(), n.getY(), n.getZ());
+			}
 			glTexCoord2d(texX4, texY4);
 			glVertex3d(x4, y4, z1);
 
