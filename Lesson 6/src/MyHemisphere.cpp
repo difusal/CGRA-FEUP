@@ -1,7 +1,7 @@
-#include "MySemiSphere.h"
+#include "MyHemisphere.h"
 #include "Utilities.h"
 
-MySemiSphere::MySemiSphere(int slices, int stacks, bool smooth) {
+MyHemisphere::MyHemisphere(int slices, int stacks, bool smooth) {
 	this->slices = slices;
 	this->stacks = stacks;
 	this->smooth = smooth;
@@ -18,7 +18,7 @@ MySemiSphere::MySemiSphere(int slices, int stacks, bool smooth) {
 		basePointsVec.push_back(Point2D(x, y));
 	}
 
-	// calculating semi sphere points matrix
+	// calculating hemisphere points matrix
 	double x, y, z;
 	double radius = 0;
 	for (int j = 0; j <= stacks; j++) {
@@ -83,7 +83,7 @@ MySemiSphere::MySemiSphere(int slices, int stacks, bool smooth) {
 	}
 }
 
-void MySemiSphere::draw() {
+void MyHemisphere::draw() {
 	double x1, y1, x2, y2, x3, y3, x4, y4, outz, inz;
 
 	// base

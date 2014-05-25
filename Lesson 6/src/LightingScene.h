@@ -1,5 +1,4 @@
-#ifndef LightingScene_H
-#define LightingScene_H
+#pragma once
 
 #include "Materials.h"
 #include "Utilities.h"
@@ -54,5 +53,3 @@ public:
 	MyClock* clock;
 	MyRobot* robot;
 };
-
-#endif

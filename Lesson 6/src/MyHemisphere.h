@@ -7,7 +7,7 @@
 #include "Point2D.h"
 #include "Point3D.h"
 
-class MySemiSphere: public CGFobject {
+class MyHemisphere: public CGFobject {
 private:
 	int slices, stacks;
 	double alpha, stackHeight;
@@ -16,7 +16,7 @@ private:
 	std::vector<Point2D> basePointsVec;
 	std::vector<std::vector<Point3D> > pointsVec, normalsVec;
 public:
-	MySemiSphere(int slices, int stacks, bool smooth);
+	MyHemisphere(int slices, int stacks, bool smooth);
 
 	void draw();
 };

@@ -1,28 +1,29 @@
-/*
- * MyRobot.h
- *
- *  Created on: May 2, 2014
- *      Author: henrique
- */
-
-#ifndef MYROBOT_H_
-#define MYROBOT_H_
+#pragma once
 
 #include "CGFobject.h"
+
+#include <vector>
+#include "Point2D.h"
+#include "Point3D.h"
 
 class MyRobot: public CGFobject {
 private:
 	int slices, stacks;
+	double alpha, stackHeight;
 	bool smooth;
+
+	std::vector<Point2D> topPointsVec;
+	std::vector<std::vector<Point3D> > pointsVec, normalsVec;
 public:
 	MyRobot(int stacks, bool smooth);
-	void draw();
-	void drawFace(int face);
 	virtual ~MyRobot();
+
+	void draw();
+	void drawTop();
+	void drawBase();
+	void drawFace(int face);
 
 	double rotation;
 	double x, z;
 	int wireframe;
 };
-
-#endif /* MYROBOT_H_ */

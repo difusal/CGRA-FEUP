@@ -8,7 +8,7 @@
 #ifndef MYLAMP_H_
 #define MYLAMP_H_
 
-#include "MySemiSphere.h"
+#include "MyHemisphere.h"
 #include "MyCylinder.h"
 #include "CGFappearance.h"
 
@@ -16,9 +16,9 @@ class MyLamp {
 	CGFappearance* whitePlastic;
 	CGFappearance* bluePlastic;
 
-	MySemiSphere* base;
+	MyHemisphere* base;
 	MyCylinder* body;
-	MySemiSphere* top;
+	MyHemisphere* top;
 
 public:
 	MyLamp();

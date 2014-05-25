@@ -25,9 +25,9 @@ MyLamp::MyLamp() {
 			bluePlasticSpec, bluePlasticShininess);
 
 	int slices = 30;
-	base = new MySemiSphere(slices, 30, true);
+	base = new MyHemisphere(slices, 30, true);
 	body = new MyCylinder(slices, 30, 1);
-	top = new MySemiSphere(slices, 30, true);
+	top = new MyHemisphere(slices, 30, true);
 }
 
 MyLamp::~MyLamp() {

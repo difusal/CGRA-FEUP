@@ -1,10 +1,3 @@
-/*
- * MyRobot.cpp
- *
- *  Created on: May 2, 2014
- *      Author: henrique
- */
-
 #include "MyRobot.h"
 
 #include <vector>
@@ -20,12 +13,26 @@ MyRobot::MyRobot(int stacks, bool smooth) {
 	rotation = 135;
 	x = z = 7.5;
 	wireframe = 0;
+
+	alpha = 360.0 / slices;
+	stackHeight = 1.0 / stacks;
+
+	// calculating points to draw top
+	topPointsVec.clear();
+	for (int i = 0; i < slices; i++) {
+		double x = 0.25 * cos(degToRad(-45 + alpha * i));
+		double y = 0.25 * sin(degToRad(-45 + alpha * i));
+
+		topPointsVec.push_back(Point2D(x, y));
+	}
+
+	// calculating robot face points matrix
+}
+
+MyRobot::~MyRobot() {
 }
 
 void MyRobot::draw() {
-	double alpha = 360.0 / slices;
-	double x1, y1;
-
 	if (wireframe)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -35,29 +42,8 @@ void MyRobot::draw() {
 	glRotated(rotation, 0, 1, 0);
 	glRotated(-90, 1, 0, 0);
 
-	// top
-	glNormal3d(0, 0, 1);
-	glBegin(GL_POLYGON);
-	for (int i = 0; i < slices; i++) {
-		x1 = 0.25 * cos(degToRad(-45 + alpha * i));
-		y1 = 0.25 * sin(degToRad(-45 + alpha * i));
-
-		glTexCoord2d(0.5 + x1 * 0.5, 0.5 + y1 * 0.5);
-		glVertex3d(x1, y1, 1);
-	}
-	glEnd();
-
-	// base
-	glPushMatrix();
-	glRotated(180.0, 1, 0, 0);
-	glNormal3d(0, 0, 1);
-	glBegin(GL_POLYGON);
-	glVertex3d(-0.5, -0.5, 0);
-	glVertex3d(0.5, -0.5, 0);
-	glVertex3d(0.5, 0.5, 0);
-	glVertex3d(-0.5, 0.5, 0);
-	glEnd();
-	glPopMatrix();
+	// draw top and base
+	drawTop(), drawBase();
 
 	// body
 	for (int i = 0; i < 4; i++) {
@@ -70,6 +56,39 @@ void MyRobot::draw() {
 	glPopMatrix();
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
+void MyRobot::drawTop() {
+	double x1, y1;
+
+	glNormal3d(0, 0, 1);
+
+	glBegin(GL_POLYGON);
+	for (int i = 0; i < slices; i++) {
+		x1 = topPointsVec[i].getX();
+		y1 = topPointsVec[i].getY();
+
+		glTexCoord2d(0.5 + x1 * 0.5, 0.5 + y1 * 0.5);
+		glVertex3d(x1, y1, 1);
+	}
+	glEnd();
+}
+
+void MyRobot::drawBase() {
+	glPushMatrix();
+
+	glRotated(180.0, 1, 0, 0);
+
+	glNormal3d(0, 0, 1);
+
+	glBegin(GL_POLYGON);
+	glVertex3d(-0.5, 0.5, 0);
+	glVertex3d(-0.5, -0.5, 0);
+	glVertex3d(0.5, -0.5, 0);
+	glVertex3d(0.5, 0.5, 0);
+	glEnd();
+
+	glPopMatrix();
 }
 
 void MyRobot::drawFace(int face) {
@@ -227,7 +246,4 @@ void MyRobot::drawFace(int face) {
 			texy4 = texy3;
 		}
 	}
-}
-
-MyRobot::~MyRobot() {
 }
