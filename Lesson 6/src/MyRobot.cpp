@@ -126,6 +126,12 @@ void MyRobot::calculateSmoothFaceNormals() {
 	for (int i = 0; i <= stacks; i++)
 		smoothFaceNormals.push_back(temp);
 
+	// get z correction
+	// this assumes calculateFlatFaceNormals has been called already
+	Point2D v(flatFaceNormals[1][1].getX(), flatFaceNormals[1][1].getZ());
+	double alpha = calculateAngleBetween(Point2D(1, 0), v);
+	Point3D zCorrection(0, 0, alpha);
+
 	// for each slice
 	for (int i = 0; i <= slices / 4; i++) {
 		double x = faceVertexes[0][i].getX();
@@ -137,7 +143,10 @@ void MyRobot::calculateSmoothFaceNormals() {
 
 		// for each stack
 		for (int j = 0; j <= stacks; j++) {
+			// calculate normal
 			Point3D normal = normalizeVector(start + j * interpolVec);
+			normal = normalizeVector(normal + zCorrection);
+
 			smoothFaceNormals[j].push_back(normal);
 		}
 	}

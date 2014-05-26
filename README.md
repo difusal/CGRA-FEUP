@@ -1,24 +1,7 @@
 CGRA-FEUP
 =========
 
-A repository to host CGRA projects.  
-Working on: refactoring.
-
-Refactored Code:
-- [x] LightingScene
-- [x] Materials
-- [x] MyClock
-- [x] MyClockHand
-- [x] MyCylinder
-- [x] MyLamp
-- [x] MyRobot
-- [x] MySemiSphere
-- [x] MyTable
-- [x] MyUnitCube
-- [ ] MyWallWithWindow
-- [x] Plane
-- [x] TPinterface
-- [x] Utilities
+A repository to host CGRA projects.
 
 ###Important notes:
 ! Do not erase newCGRAProject.sh neither CGRA Application folder !  

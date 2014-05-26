@@ -39,6 +39,14 @@ void drawMyRect(double x1, double y1, double x2, double y2,
 		glEnable(GL_TEXTURE_2D);
 }
 
+double calculateAngleBetween(Point2D u, Point2D v) {
+	double num = u.getX() * v.getX() + u.getY() * v.getY();
+	double denom = sqrt(u.getX() * u.getX() + u.getY() * u.getY())
+			* sqrt(v.getX() * v.getX() + v.getY() * v.getY());
+
+	return acos(num / denom);
+}
+
 Point3D normalizeVector(Point3D normal) {
 	double powX = pow(normal.getX(), 2);
 	double powY = pow(normal.getY(), 2);
