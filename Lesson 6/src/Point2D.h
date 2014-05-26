@@ -26,7 +26,7 @@ public:
 	}
 
 	friend Point2D operator+(Point2D start, Point2D vec) {
-		double x, y, z;
+		double x, y;
 
 		x = start.x + vec.x;
 		y = start.y + vec.y;
@@ -35,7 +35,7 @@ public:
 	}
 
 	friend Point2D operator-(Point2D end, Point2D start) {
-		double x, y, z;
+		double x, y;
 
 		x = end.x - start.x;
 		y = end.y - start.y;
@@ -44,7 +44,7 @@ public:
 	}
 
 	friend Point2D operator*(double n, Point2D vec) {
-		double x, y, z;
+		double x, y;
 
 		x = n * vec.x;
 		y = n * vec.y;

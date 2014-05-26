@@ -10,7 +10,7 @@ OUT = bin/CGFexample
 INCLUDES = -I. -I./include/ -I./include/CGF -I/usr/local/include
 
 # C++ compiler flags (-g -O2 -Wall)
-CCFLAGS = -g
+CCFLAGS = -g -Wall
 
 # compiler
 CCC = g++

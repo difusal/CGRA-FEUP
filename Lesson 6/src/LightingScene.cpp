@@ -48,7 +48,7 @@ void LightingScene::initLights() {
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientNull);
 
 	// global ambient light (do not confuse with ambient component of individual lights)
-	float globalAmbientLight[4] = { 0.2, 0.2, 0.2, 1.0 };
+	// float globalAmbientLight[4] = { 0.2, 0.2, 0.2, 1.0 };
 	float yellow[4] = { 1, 1, 0, 1 };
 
 	// lights positions

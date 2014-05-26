@@ -53,7 +53,7 @@ Point3D normalizeVector(Point3D normal) {
 Point3D calculateSurfaceNormal(std::vector<Point3D> polygonVertexes) {
 	double x = 0, y = 0, z = 0;
 
-	for (int i = 0; i < polygonVertexes.size(); i++) {
+	for (unsigned int i = 0; i < polygonVertexes.size(); i++) {
 		Point3D current = polygonVertexes[i];
 		Point3D next = polygonVertexes[(i + 1) % polygonVertexes.size()];
 

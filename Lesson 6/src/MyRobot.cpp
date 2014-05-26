@@ -82,11 +82,11 @@ void MyRobot::calculateFlatFaceNormals() {
 	flatFaceNormals.clear();
 
 	// for each stack
-	for (int i = 0; i < faceVertexes.size() - 1; i++) {
+	for (unsigned int i = 0; i < faceVertexes.size() - 1; i++) {
 		vector<Point3D> stackNormals;
 
 		// for each slice
-		for (int j = 0; j < faceVertexes[i].size() - 1; j++) {
+		for (unsigned int j = 0; j < faceVertexes[i].size() - 1; j++) {
 			// get polygon points
 			double x1 = faceVertexes[i][j].getX();
 			double y1 = faceVertexes[i][j].getY();
@@ -266,9 +266,9 @@ void MyRobot::drawBase() {
 
 void MyRobot::drawFace(int face) {
 	// for each stack
-	for (int i = 0; i < faceVertexes.size() - 1; i++) {
+	for (unsigned int i = 0; i < faceVertexes.size() - 1; i++) {
 		// for each slice
-		for (int j = 0; j < faceVertexes[i].size() - 1; j++) {
+		for (unsigned int j = 0; j < faceVertexes[i].size() - 1; j++) {
 			// flat shading
 			if (!smooth) {
 				Point3D n = flatFaceNormals[i][j];
