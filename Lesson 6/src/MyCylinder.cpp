@@ -24,11 +24,13 @@ MyCylinder::MyCylinder(int slices, int stacks, int smooth) {
 	double x1, y1, x2 = 1, y2 = 0;
 	for (int i = 0; i < slices; i++) {
 		x1 = x2, y1 = y2;
-		x2 = pointsVec[i + 1].getX();
-		y2 = pointsVec[i + 1].getY();
+
 		if (i == slices - 1) {
 			x2 = pointsVec[0].getX();
 			y2 = pointsVec[0].getY();
+		} else {
+			x2 = pointsVec[i + 1].getX();
+			y2 = pointsVec[i + 1].getY();
 		}
 
 		double ax, ay;
@@ -82,11 +84,12 @@ void MyCylinder::draw() {
 		x1 = x2, y1 = y2;
 		z2 = 1;
 
-		x2 = pointsVec[i + 1].getX();
-		y2 = pointsVec[i + 1].getY();
 		if (i == slices - 1) {
 			x2 = pointsVec[0].getX();
 			y2 = pointsVec[0].getY();
+		} else {
+			x2 = pointsVec[i + 1].getX();
+			y2 = pointsVec[i + 1].getY();
 		}
 
 		// flat shading
