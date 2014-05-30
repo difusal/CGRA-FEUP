@@ -4,6 +4,7 @@
 
 #include "PointTool.h"
 #include "LineTool.h"
+#include "RectTool.h"
 
 void CanvasInterface::convertCoords(int *x, int *y) {
 	// Converts GLUI coordinate space to viewport/texture coordinate space
@@ -39,6 +40,7 @@ void CanvasInterface::initGUI() {
 	// init Tools
 	tools[0] = new PointTool(((CanvasScene*) scene)->canvas);
 	tools[1] = new LineTool(((CanvasScene*) scene)->canvas);
+	tools[2] = new RectTool(((CanvasScene*) scene)->canvas);
 	// you may add more tools here, provided that you:
 	//	 - adjust the value of TOOL_SIZE in the header file 
 	//	 - add "includes" to the corresponding tools in the top of this file
@@ -52,6 +54,7 @@ void CanvasInterface::initGUI() {
 	GLUI_RadioGroup *toolRG = addRadioGroupToPanel(varPanel, &activeToolID, -1);
 	addRadioButtonToGroup(toolRG, "Point");
 	addRadioButtonToGroup(toolRG, "Line");
+	addRadioButtonToGroup(toolRG, "Rectangle");
 	// if you add more tools above, you should add a radio button in the same order here
 
 	// select the radio button corresponding to the default tool

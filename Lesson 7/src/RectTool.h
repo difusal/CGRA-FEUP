@@ -2,13 +2,13 @@
 
 #include "CanvasTool.h"
 
-class LineTool: public CanvasTool {
+class RectTool: public CanvasTool {
 public:
-	LineTool(CGFcanvas *cnv) :
+	RectTool(CGFcanvas *cnv) :
 			CanvasTool(cnv) {
 	}
 
-	virtual ~LineTool() {
+	virtual ~RectTool() {
 
 	}
 
@@ -16,7 +16,7 @@ public:
 	virtual void mouseDragged(int x, int y);
 	virtual void mouseReleased(int x, int y);
 
-	virtual void drawLine(int xi, int yi, int xf, int yf);
+	virtual void drawRect(int xi, int yi, int xf, int yf);
 
 	int sx, sy, currx, curry;
 };

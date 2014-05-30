@@ -5,11 +5,10 @@
 #include "CanvasTool.h"
 
 // Adjust below for adding more tools
-const int TOOL_SIZE = 2;
+const int TOOL_SIZE = 3;
 
 class CanvasInterface: public CGFinterface {
 public:
-
 	virtual void initGUI();
 	virtual void processGUI(GLUI_Control *ctrl);
 
@@ -17,7 +16,6 @@ public:
 	virtual void processMouseMoved(int x, int y);
 
 private:
-
 	void convertCoords(int *x, int *y);
 
 	CanvasTool *tools[TOOL_SIZE];

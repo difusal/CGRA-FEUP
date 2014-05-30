@@ -1,5 +1,4 @@
-#ifndef _POINTTOOL_H_
-#define _POINTTOOL_H_
+#pragma once
 
 #include "CanvasTool.h"
 
@@ -8,11 +7,12 @@ public:
 	PointTool(CGFcanvas *cnv) :
 			CanvasTool(cnv) {
 	}
-	virtual ~PointTool;
+
+	virtual ~PointTool() {
+
+	}
 
 	virtual void mousePressed(int x, int y);
 	virtual void mouseReleased(int x, int y);
 	virtual void mouseDragged(int x, int y);
 };
-
-#endif
