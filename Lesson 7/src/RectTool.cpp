@@ -1,5 +1,7 @@
 #include "RectTool.h"
 
+#include <algorithm>
+
 void RectTool::mousePressed(int x, int y) {
 	// Reset start coordinates and active (current) coordinates
 	sx = x;
@@ -31,7 +33,7 @@ void RectTool::mouseReleased(int x, int y) {
 	// Redraw previous rectangle to erase it
 	drawRect(sx, sy, currx, curry);
 
-	// Set normal mode and color to draw final line
+	// Set normal mode and color to draw final rectangle
 	canvas->setNormalMode();
 	canvas->setColor(0);
 
@@ -41,21 +43,22 @@ void RectTool::mouseReleased(int x, int y) {
 
 void RectTool::drawRect(int xi, int yi, int xf, int yf) {
 	// y correction
-	if (yi > yf) {
-		int temp = yi;
-		yi = yf;
-		yf = temp;
-	}
+	if (yi > yf)
+		std::swap(yi, yf);
 
 	// x correction
-	if (xi > xf) {
-		int temp = xi;
-		xi = xf;
-		xf = temp;
+	if (xi > xf)
+		std::swap(xi, xf);
+
+	// horizontal borders
+	for (int i = xi; i <= xf; i++) {
+		canvas->setPixel(i, yi);
+		canvas->setPixel(i, yf);
 	}
 
-	// drawing pixel by pixel
-	for (int i = yi; i <= yf; i++)
-		for (int j = xi; j <= xf; j++)
-			canvas->setPixel(j, i);
+	// vertical borders
+	for (int i = yi + 1; i < yf; i++) {
+		canvas->setPixel(xi, i);
+		canvas->setPixel(xf, i);
+	}
 }

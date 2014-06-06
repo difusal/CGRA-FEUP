@@ -6,6 +6,7 @@ class RectTool: public CanvasTool {
 public:
 	RectTool(CGFcanvas *cnv) :
 			CanvasTool(cnv) {
+		sx = sy = currx = curry = -1;
 	}
 
 	virtual ~RectTool() {

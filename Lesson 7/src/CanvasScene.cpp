@@ -14,6 +14,8 @@ CanvasScene::CanvasScene() {
 	// replace base scene camera by a canvas camera 
 	// (orthographic, pixel-accurate units)
 	activeCamera = new Canvascamera();
+
+	canvas = NULL;
 }
 
 void CanvasScene::init() {

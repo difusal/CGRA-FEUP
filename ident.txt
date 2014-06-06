@@ -2,6 +2,3 @@ Turma 1
 Grupo 8
 Henrique Ferrolho	201202772
 João Sousa			201207207
-
-Nota sobre as texturas:
-Colocar a pasta res/ ao nível da pasta src/.

@@ -13,7 +13,6 @@ public:
 	~CanvasScene();
 
 	CGFcanvas *canvas;
-
 };
 
 #endif

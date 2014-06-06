@@ -1,5 +1,7 @@
 #include "LineTool.h"
 
+#include <algorithm>
+
 void LineTool::mousePressed(int x, int y) {
 	// Reset start coordinates and active (current) coordinates
 	sx = x;
@@ -40,17 +42,29 @@ void LineTool::mouseReleased(int x, int y) {
 }
 
 void LineTool::drawLine(int xi, int yi, int xf, int yf) {
-	// draws a line; 
-	// simple flawed version, only draws in quadrants 1 and 4, 
-	// and iterates over x, meaning there will be gaps on octants 2 and 7
-	// where abs(delta y) > abs(delta x)
+	int a = abs(xf - xi);
+	int b = abs(yf - yi);
 
-	float m;
-	if (xf != xi)
-		m = (float) (yf - yi) / (float) (xf - xi);
-	else
-		m = 0;
+	bool invertXY = false;
+	if (b > a) {
+		std::swap(xi, yi);
+		std::swap(xf, yf);
+		std::swap(a, b);
+		invertXY = true;
+	}
 
-	for (int x = xi; x <= xf; x++)
-		canvas->setPixel(x, yi + (x - xi) * m);
+	if (xf < xi)
+		std::swap(xi, xf), std::swap(yi, yf);
+
+	// do not touch this
+	int inc2 = 2 * b;
+	int d = inc2 - a;	// d = 2*b – a;
+	int inc1 = d - a;	// inc1 = 2*(b-a);
+
+	int x = xi, y = yi;
+	for (int i = 0; i < a; i++, x++) {
+		invertXY ? canvas->setPixel(y, x) : canvas->setPixel(x, y);
+
+		d >= 0 ? yi > yf ? y-- : y++, d += inc1 : d += inc2;
+	}
 }
