@@ -6,11 +6,10 @@ A repository to host CGRA projects.
 ###How to open project on eclipse:
 1. Open eclipse;
 2. Open the C/C++ perspective;
-3. Create new "Makefile Project with Existing Code";
-4.
+3. Create new "Makefile Project with Existing Code":
   - Name your project;
   - Select the project folder;
-  - Select Linux GCC toolchain;
+  - Select Linux GCC toolchain.
 5. Press finish.
 
 ###How to install CGFLib on ubuntu:
