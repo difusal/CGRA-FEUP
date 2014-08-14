@@ -19,6 +19,7 @@ A repository to host CGRA projects.
 2. Install these package:
   - http://packages.ubuntu.com/nl/raring/libglui2c2
   - http://packages.ubuntu.com/nl/raring/libglui-dev
+
 ###Important notes:
 ! Do not erase newCGRAProject.sh neither CGRA Application folder !  
 These are required to create new projects easily using a script.
